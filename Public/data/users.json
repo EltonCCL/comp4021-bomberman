@@ -1,0 +1,27 @@
+{
+ "tony": {
+  "avatar": "Owl",
+  "name": "Tony Lee",
+  "password": "$2b$10$Yxb2fSgA5RFn9Oz9TxjLLuve/GiPXCs2DWVFhyFDr4qz39qglwp8e"
+ },
+ "may": {
+  "avatar": "Rabbit",
+  "name": "May Wong",
+  "password": "$2b$10$gLc3Ri9W6P650EKKbexw6uvirV8Bar7gmvAtMcoMiPiR3rsY50GVu"
+ },
+ "danny": {
+  "avatar": "Hamster",
+  "name": "danny lam",
+  "password": "$2b$10$k/YzBJfmSGNNf2eI4u7Ahuc1NRgfeP5S4y5DvObsfSUCIsdskKC6u"
+ },
+ "tom": {
+  "avatar": "Hatching Chick",
+  "name": "tom lam",
+  "password": "$2b$10$02BrIAkudO64OLdhDXNxgerMbpqN494ydTDqxB/ZD9N3ldmg3wMCO"
+ },
+ "test": {
+  "avatar": "Shark",
+  "name": "test",
+  "password": "$2b$10$AhqzHw583qD1jaWRfNtzg.xhdc1gJN2aADtYb0VtBTMAXesCAI5YO"
+ }
+}

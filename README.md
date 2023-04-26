@@ -5,11 +5,11 @@ Move: arrow key
 
 Place Bomb: m key
 
-Chaet: space
+Cheat: space
 
 ## Player 2
 Move: wasd
 
 Place Bomb: b key
 
-Chaet: space
+Cheat: space

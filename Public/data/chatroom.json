@@ -1,0 +1,11 @@
+[
+  {
+    "user": {
+      "username": "tony",
+      "avatar": "Owl",
+      "name": "Tony Lee"
+    },
+    "datetime": "2022-01-01T01:00:00.000Z",
+    "content": "Hi, welcome to the chatroom!"
+  }
+]
