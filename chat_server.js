@@ -163,7 +163,7 @@ const { createServer } = require("http");
 const { Server } = require("socket.io");
 const httpServer = createServer(app);
 const io = new Server(httpServer);
-const onlineUsers = {}
+const onlineUsers = {};
 io.on("connection", (socket) => {
     if (socket.request.session.user) {
         const { username, avatar, name } = socket.request.session.user;
@@ -182,26 +182,16 @@ io.on("connection", (socket) => {
     socket.on("get users", () => {
         socket.emit("users", JSON.stringify(onlineUsers));
     });
-    socket.on("get messages", () => {
-        const messages = JSON.parse(fs.readFileSync("Public/data/chatroom.json"));
-        socket.emit("messages", JSON.stringify(messages));
+
+    //boardcast the movement to all players
+    socket.on("move", (data) => {
+        io.emit("move", { playerID: data.playerID, movement: data.movement, direction: data.direction });
     });
 
-    socket.on("post message", (data) => {
-        let user = socket.request.session.user;
-        const comment = { user: user, datetime: Date.now(), content: data };
-        message = JSON.parse(fs.readFileSync("Public/data/chatroom.json"));
-        message[Object.keys(message).length] = comment;
-        fs.writeFileSync("Public/data/chatroom.json", JSON.stringify(message, null, " "));
-        io.emit("add message", JSON.stringify(comment));
-    })
-    socket.on("typing", (data) => {
-        let user = socket.request.session.user;
-        socket.broadcast.emit("other typing", user.username);
-    })
-    socket.on("test", (data) => {
-        console.log(data);
-    })
+    //boardcast the join game event to all players
+    socket.on("join game", (data) => {
+        io.emit("join game", { playerName: data.playerName, playerID: data.playerID })
+    });
 });
 
 io.use((socket, next) => {

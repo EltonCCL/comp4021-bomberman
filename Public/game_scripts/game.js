@@ -1,8 +1,11 @@
 const game = (function () {
 
-    const start = function () {
+    $("#game-canvas").css('opacity', '0.1');
+    const players = [];
+    let bombs = null;
+    let playerID = null;
 
-        Socket.test();
+    const start = function () {
 
         /*Initialize the size of the map (canvas)*/
         selectedMap = map_1;
@@ -18,11 +21,10 @@ const game = (function () {
         const mapArea = Maps(gameContext, selectedMap);
         const gameArea = BoundingBox(gameContext, 0, 0, ctx_game.height, ctx_game.width);
 
-        const players = [];
         players[0] = Player(gameContext, 75, 75, gameArea, mapArea, 1);
         players[1] = Player(gameContext, ctx_game.width - 75, ctx_game.height - 75, gameArea, mapArea, 2);
 
-        const bombs = Bombs(mapArea, players);
+        bombs = Bombs(mapArea, players);
 
         // Initializing the player board
         for (let k = 0; k < players.length; k++) {
@@ -81,43 +83,22 @@ const game = (function () {
         $(document).on("keydown", function (event) {
             switch (event.keyCode) {
                 case 32:
-                    players[0].speedUp();
+                    Socket.postMovement("speedUp", 0);
                     break;
                 case 37:
-                    players[0].move(1);
+                    Socket.postMovement("move", 1);
                     break;
                 case 38:
-                    players[0].move(2);
+                    Socket.postMovement("move", 2);
                     break;
                 case 39:
-                    players[0].move(3);
+                    Socket.postMovement("move", 3);
                     break;
                 case 40:
-                    players[0].move(4);
+                    Socket.postMovement("move", 4);
                     break;
                 case 77:
-                    bombs.placeBomb(players[0]);
-                    break;
-            }
-
-            switch (event.keyCode) {
-                case 32:
-                    players[1].speedUp();
-                    break;
-                case 65:
-                    players[1].move(1);
-                    break;
-                case 87:
-                    players[1].move(2);
-                    break;
-                case 68:
-                    players[1].move(3);
-                    break;
-                case 83:
-                    players[1].move(4);
-                    break;
-                case 66:
-                    bombs.placeBomb(players[1]);
+                    Socket.postMovement("bomb", 0);
                     break;
             }
 
@@ -127,36 +108,19 @@ const game = (function () {
         $(document).on("keyup", function (event) {
             switch (event.keyCode) {
                 case 32:
-                    players[0].slowDown();
+                    Socket.postMovement("slowDown", 0);
                     break;
                 case 37:
-                    players[0].stop(1);
+                    Socket.postMovement("stop", 1);
                     break;
                 case 38:
-                    players[0].stop(2);
+                    Socket.postMovement("stop", 2);
                     break;
                 case 39:
-                    players[0].stop(3);
+                    Socket.postMovement("stop", 3);
                     break;
                 case 40:
-                    players[0].stop(4);
-                    break;
-            }
-            switch (event.keyCode) {
-                case 32:
-                    players[1].slowDown();
-                    break;
-                case 65:
-                    players[1].stop(1);
-                    break;
-                case 87:
-                    players[1].stop(2);
-                    break;
-                case 68:
-                    players[1].stop(3);
-                    break;
-                case 83:
-                    players[1].stop(4);
+                    Socket.postMovement("stop", 4);
                     break;
             }
 
@@ -166,7 +130,27 @@ const game = (function () {
         requestAnimationFrame(doFrame);
     }
 
-    return { start };
+
+    //will be called when socket.on("move")
+    const move = function (playerID, movement, direction) {
+        if (movement == "move")
+            players[playerID].move(direction);
+
+        if (movement == "stop")
+            players[playerID].stop(direction);
+
+        if (movement == "bomb")
+            bombs.placeBomb(players[playerID]);
+
+        if (movement == "speedUp")
+            players[playerID].speedUp();
+
+        if (movement == "slowDown")
+            players[playerID].slowDown();
+    }
+
+
+    return { start, move };
 })();
 
 

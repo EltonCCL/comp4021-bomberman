@@ -23,5 +23,15 @@
   "avatar": "Shark",
   "name": "test",
   "password": "$2b$10$AhqzHw583qD1jaWRfNtzg.xhdc1gJN2aADtYb0VtBTMAXesCAI5YO"
+ },
+ "qqq": {
+  "avatar": "Hamster",
+  "name": "qqq",
+  "password": "$2b$10$oCdPER7kKd7Q4laTUZK5W.QUyaKIL8roQF8zeQoeFpeci3IjT9Bda"
+ },
+ "www": {
+  "avatar": "Koala",
+  "name": "www",
+  "password": "$2b$10$PlOPbbwTBUSzUNxiDK1hues7JLZIqSSX1HKqRShdmURRwc4VjOi0i"
  }
 }

@@ -68,6 +68,17 @@ const SignInForm = (function () {
                 (error) => { $("#register-message").text(error); }
             );
         });
+
+
+        $("#join-player1").on("click", () => {
+            var playerName = Authentication.getUser().username;
+            Socket.joinGame(playerName, 0);
+        });
+
+        $("#join-player2").on("click", () => {
+            var playerName = Authentication.getUser().username;
+            Socket.joinGame(playerName, 1);
+        });
     };
 
     // This function shows the form
