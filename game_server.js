@@ -199,8 +199,38 @@ io.on("connection", (socket) => {
 
     //broadcast the join game event to all players
     socket.on("join game", (data) => {
-        io.emit("join game", { playerName: data.playerName, playerID: data.playerID })
+        io.emit("join game", { playerName: data.playerName, playerID: data.playerID });
     });
+
+    //broadcast end game event to all players
+    socket.on("end game", (data) => {
+        //update leaderboard
+        let content = JSON.parse(fs.readFileSync("public/data/leaderboard.json"));
+        let playerName = data;
+        //existing player
+        if (content[playerName])
+            content[playerName] += 1;
+        //new player
+        else {
+            content[playerName] = 1;
+        }
+        fs.writeFileSync("public/data/leaderboard.json", JSON.stringify(content));
+        io.emit("end game", data);
+    });
+
+    //broadcast restart game event to all players
+    socket.on("restart", () => {
+        io.emit("restart", true);
+    });
+
+    socket.on("get leaderboard", () => {
+        let content = JSON.parse(fs.readFileSync("public/data/leaderboard.json"));
+        io.emit("get leaderboard", content);
+    });
+
+
+
+
 });
 
 io.use((socket, next) => {

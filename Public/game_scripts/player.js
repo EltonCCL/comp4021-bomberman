@@ -205,13 +205,18 @@ const Player = function (ctx, x, y, gameArea, mapArea, id) {
     }
 
     // call when hit
-    const reduceLife = function () {
+    const reduceLife = function (playerID) {
+
         stat.life--;
-        console.log("P", PID, "Remains", stat.life, "life");
         if (stat.life <= 0) {
+            // playerName = enemy
+            var playerName = (playerID == 2) ? $("#join-player1").text() : $("#join-player2").text();
+            //only the winner send the end game event to server since the name will display on screen
+            if (Authentication.getUser().username == playerName)
+                Socket.endGame(playerName);
             stat.life = 0;
             speed = 0;
-            console.log("P", PID, "is dead");
+            console.log(playerName, "is dead");
         }
     }
     // The methods are returned as an object here.

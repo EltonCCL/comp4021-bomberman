@@ -136,7 +136,6 @@ const Sprite = function (ctx, x, y) {
         /* Get the display size of the sprite */
         const size = getDisplaySize();
 
-        /* TODO */
         /* Replace the following code to draw the sprite correctly */
         // ctx.fillStyle = "red";
         // ctx.globalAlpha = 0.6;
@@ -165,7 +164,6 @@ const Sprite = function (ctx, x, y) {
     // - `time` - The timestamp when this function is called
     const update = function (time) {
         if (lastUpdate == 0) lastUpdate = time;
-        /* TODO */
         /* Move to the next sprite when the timing is right */
         if (sequence.timing <= (time - lastUpdate)) {
             index++;

@@ -104,7 +104,8 @@ const Bombs = function (ctx, players) {
                     // check hit
                     for (const play of players) {
                         if (play.getIJ().i == i && play.getIJ().j == j) {
-                            play.reduceLife();
+                            play.reduceLife(play.PID);
+                            console.log(play.PID);
                             addRecord(player.PID, play.PID, play.getIJ().i, play.getIJ().j)
                             // console.log("P", player.PID, "hit P", play.PID, "at", play.getIJ().i, play.getIJ().j);
                         }
@@ -148,7 +149,7 @@ const Bombs = function (ctx, players) {
                     //check player hit
                     for (const play of players) {
                         if (play.getIJ().i == (i + q * p) && play.getIJ().j == (j + r * p)) {
-                            play.reduceLife();
+                            play.reduceLife(play.PID);
                             addRecord(player.PID, play.PID, play.getIJ().i, play.getIJ().j)
                             // console.log("P", player.PID, "hit P", play.PID, "at", play.getIJ().i, play.getIJ().j);
                         }

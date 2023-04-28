@@ -79,6 +79,11 @@ const SignInForm = (function () {
             var playerName = Authentication.getUser().username;
             Socket.joinGame(playerName, 1);
         });
+
+        // simple restart button to refresh the page
+        $("#restart").on("click", () => {
+            Socket.restartGame();
+        })
     };
 
     // This function shows the form

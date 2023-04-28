@@ -37,6 +37,21 @@ const Socket = (function () {
             }
         });
 
+        socket.on("end game", (winner) => {
+            $("#game-canvas").css('opacity', '0.1');
+            $("#waitingText").html(winner + "");
+            getLeaderboard();
+        });
+
+        socket.on("restart", () => {
+            location.reload();
+        });
+
+        //TODO : create a leaderboard with below data
+        socket.on("get leaderboard", (leaderboard) => {
+            console.log("Leaderboard: " + leaderboard);
+        });
+
     };
 
     // This function disconnects the socket from the server
@@ -56,6 +71,19 @@ const Socket = (function () {
         socket.emit("join game", { playerName: playerName, playerID: playerID });
     }
 
+    // post the winner player name to server
+    const endGame = function (playerName) {
+        socket.emit("end game", playerName);
+    }
 
-    return { getSocket, connect, disconnect, postMessage, postMovement, joinGame };
+    const restartGame = function () {
+        socket.emit("restart", true);
+    }
+
+    // get all players rank
+    const getLeaderboard = function () {
+        socket.emit("get leaderboard", true);
+    }
+
+    return { getSocket, connect, disconnect, postMessage, postMovement, joinGame, endGame, restartGame, getLeaderboard };
 })();
