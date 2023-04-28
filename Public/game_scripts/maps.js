@@ -1,4 +1,4 @@
-const Maps = function(ctx, ipt_map){
+const Maps = function (ctx, ipt_map) {
 
     function getKeyByValue(object, value) {
         return Object.keys(object).find(key => object[key] === value);
@@ -40,20 +40,20 @@ const Maps = function(ctx, ipt_map){
     let objsBox = [];
 
     // Initializing all the layers
-    for (let i = 0; i < ipt_map.length; i ++){
+    for (let i = 0; i < ipt_map.length; i++) {
         let row_obj = [];
         let row_objBox = [];
         let row_groundLayer = [];
         let row_explosionLayer = [];
         let row_explosionCount = [];
 
-        for (let j = 0; j < ipt_map[0].length; j ++){
-            row_groundLayer.push(Wall(ctx, j*objL+objL/2,i*objL+objL/2, type=objKey[0]));
+        for (let j = 0; j < ipt_map[0].length; j++) {
+            row_groundLayer.push(Wall(ctx, j * objL + objL / 2, i * objL + objL / 2, type = objKey[0]));
 
-            if (ipt_map[i][j] != 0){
-                row_obj.push(Wall(ctx, j*objL+objL/2,i*objL+objL/2, type=objKey[ipt_map[i][j]]));
-                row_objBox.push(BoundingBox(ctx, i*objL, j*objL, i*objL+objL, j*objL+objL));
-            }else{
+            if (ipt_map[i][j] != 0) {
+                row_obj.push(Wall(ctx, j * objL + objL / 2, i * objL + objL / 2, type = objKey[ipt_map[i][j]]));
+                row_objBox.push(BoundingBox(ctx, i * objL, j * objL, i * objL + objL, j * objL + objL));
+            } else {
                 row_obj.push(null);
                 row_objBox.push(null);
             }
@@ -68,75 +68,75 @@ const Maps = function(ctx, ipt_map){
         explosionCount.push(row_explosionCount);
     }
 
-    const draw = function(){
+    const draw = function () {
         // draw all the layers of map
-        for (let i = 0; i < mapHeight; i ++){
-            for (let j = 0; j < mapWidth; j ++){
+        for (let i = 0; i < mapHeight; i++) {
+            for (let j = 0; j < mapWidth; j++) {
                 groundLayer[i][j].draw();
             }
         }
-        for (let i = 0; i < mapHeight; i ++){
-            for (let j = 0; j < mapWidth; j ++){
+        for (let i = 0; i < mapHeight; i++) {
+            for (let j = 0; j < mapWidth; j++) {
                 // console.log(i, j)
-                if (!(explosionLayer[i][j]===null))
+                if (!(explosionLayer[i][j] === null))
                     explosionLayer[i][j].draw();
             }
         }
-        for (let i = 0; i < mapHeight; i ++){
-            for (let j = 0; j < mapWidth; j ++){
+        for (let i = 0; i < mapHeight; i++) {
+            for (let j = 0; j < mapWidth; j++) {
                 // console.log(i, j)
-                if (!(objs[i][j]===null))
+                if (!(objs[i][j] === null))
                     objs[i][j].draw();
             }
         }
     }
 
 
-    const getObjBox = function(){
+    const getObjBox = function () {
         return objsBox;
     }
-    
-    const isCollision = function(x,y, ignoreBlock){
+
+    const isCollision = function (x, y, ignoreBlock) {
         let collied = false;
-        for (let i = 0; i < mapHeight; i ++){
-            for (let j = 0; j < mapWidth; j ++){
-                if (objs[i][j] === null || objsBox[i][j] === null){
+        for (let i = 0; i < mapHeight; i++) {
+            for (let j = 0; j < mapWidth; j++) {
+                if (objs[i][j] === null || objsBox[i][j] === null) {
                     continue;
                 }
                 // allow to ignore certain block of collision
                 // it used to prevent the player being stuck at the bomb he just places
                 let skip = false;
-                for (let p = 0; p < ignoreBlock.length; p++){
-                    if (ignoreBlock[p][0] == j && ignoreBlock[p][1] == i){
+                for (let p = 0; p < ignoreBlock.length; p++) {
+                    if (ignoreBlock[p][0] == j && ignoreBlock[p][1] == i) {
                         skip = true;
                         continue;
                     }
                 }
                 if (skip)
                     continue;
-                
+
                 // ignore ground
                 if (objs[i][j].getType() == objKey[0])
                     continue;
-                    
-                collied = collied || objsBox[i][j].isPointInBox(x,y);
+
+                collied = collied || objsBox[i][j].isPointInBox(x, y);
             }
         }
         return collied;
     }
 
-    const getMapSize = function(){
-        return {w: mapWidth, h: mapHeight, pix: objL};
+    const getMapSize = function () {
+        return { w: mapWidth, h: mapHeight, pix: objL };
     }
 
     // get object at i, j
     // *Note, the id was an experimental variables, now is useless 
-    const getObj = function(i, j){
+    const getObj = function (i, j) {
         if (i < 0 || i >= mapHeight)
-            return {id: null, obj:null};
+            return { id: null, obj: null };
         if (j < 0 || j >= mapWidth)
-            return {id: null, obj:null};
-        return {id: null, obj:objs[i][j]};
+            return { id: null, obj: null };
+        return { id: null, obj: objs[i][j] };
     }
 
     // place a object on the layer
@@ -146,7 +146,7 @@ const Maps = function(ctx, ipt_map){
     // ipt_tpye: the object type you want
     // layer: the layer you want to put
     // hvBox: Need to create boundary box for it?
-    const setObj = function(iIndex, jIndex, ipt_type, layer="objs", hvBox=false){
+    const setObj = function (iIndex, jIndex, ipt_type, layer = "objs", hvBox = false, randomNubmer = 0) {
         // handle out of range
         if (iIndex < 0 || iIndex >= mapHeight)
             return;
@@ -154,7 +154,7 @@ const Maps = function(ctx, ipt_map){
             return;
 
         // choose layer
-        switch(layer){
+        switch (layer) {
             case "objs":
                 layer = objs;
                 break;
@@ -172,37 +172,37 @@ const Maps = function(ctx, ipt_map){
 
         // choose obj type
         let obj;
-        switch (ipt_type){
+        switch (ipt_type) {
             case "ground":
-                obj = Wall(ctx, jIndex*objL+objL/2,iIndex*objL+objL/2, type=ipt_type);
+                obj = Wall(ctx, jIndex * objL + objL / 2, iIndex * objL + objL / 2, type = ipt_type);
                 break;
             case "bomb":
-                obj = Bomb(ctx, jIndex*objL + objL/2, iIndex*objL + objL/2);
+                obj = Bomb(ctx, jIndex * objL + objL / 2, iIndex * objL + objL / 2);
                 break;
             case "explosion":
-                obj = Explosion(ctx, jIndex*objL + objL/2, iIndex*objL + objL/2);
+                obj = Explosion(ctx, jIndex * objL + objL / 2, iIndex * objL + objL / 2);
                 break;
             case "buff":
-                obj = Buff(ctx, jIndex*objL + objL/2, iIndex*objL + objL/2, type="random");
+                obj = Buff(ctx, jIndex * objL + objL / 2, iIndex * objL + objL / 2, type = "random", randomNubmer);
         }
         // place the object at the layer
         layer[iIndex][jIndex] = obj;
 
         // create boundary box
-        if (hvBox){
-            objsBox[iIndex][jIndex] = BoundingBox(ctx, iIndex*objL, jIndex*objL, iIndex*objL+objL, jIndex*objL+objL)
+        if (hvBox) {
+            objsBox[iIndex][jIndex] = BoundingBox(ctx, iIndex * objL, jIndex * objL, iIndex * objL + objL, jIndex * objL + objL)
         }
     }
 
     // clear object at certain layer
     // it allow some exception (mostly bombs and buff)
-    const clearObj = function(iIndex, jIndex, layer="objs", exception=[]){
+    const clearObj = function (iIndex, jIndex, layer = "objs", exception = []) {
         if (iIndex < 0 || iIndex >= mapHeight)
             return;
         if (jIndex < 0 || jIndex >= mapWidth)
             return;
         // console.log(exception);
-        switch(layer){
+        switch (layer) {
             case "objs":
                 layer = objs;
                 break;
@@ -222,31 +222,31 @@ const Maps = function(ctx, ipt_map){
         }
         if (layer[iIndex][jIndex] === null)
             return;
-        for (let p = 0; p < exception.length; p ++){            
+        for (let p = 0; p < exception.length; p++) {
             if (layer[iIndex][jIndex].getType() == exception[p])
                 return;
         }
-     
+
         layer[iIndex][jIndex] = null;
     }
 
     // update layers
-    const update = function(time){
-        for (let i = 0; i < mapHeight; i ++){
-            for (let j = 0; j < mapWidth; j ++){
-                if (!(objs[i][j]===null))
-                    if (objs[i][j].getType() == "bomb"){
+    const update = function (time) {
+        for (let i = 0; i < mapHeight; i++) {
+            for (let j = 0; j < mapWidth; j++) {
+                if (!(objs[i][j] === null))
+                    if (objs[i][j].getType() == "bomb") {
                         objs[i][j].update(time);
                     }
-                if (!(explosionLayer[i][j]===null))
-                    if (explosionLayer[i][j].getType() == "explosion"){
+                if (!(explosionLayer[i][j] === null))
+                    if (explosionLayer[i][j].getType() == "explosion") {
                         explosionLayer[i][j].update(time);
                     }
             }
         }
     }
 
-    const getExplosionCount = function(i,j){
+    const getExplosionCount = function (i, j) {
         if (i < 0 || i >= mapHeight)
             return -1;
         if (j < 0 || j >= mapWidth)
@@ -254,7 +254,7 @@ const Maps = function(ctx, ipt_map){
         return explosionCount[i][j];
     }
 
-    const setExplosionCount = function(i,j,count){
+    const setExplosionCount = function (i, j, count) {
         if (i < 0 || i >= mapHeight)
             return;
         if (j < 0 || j >= mapWidth)
@@ -262,7 +262,7 @@ const Maps = function(ctx, ipt_map){
         explosionCount[i][j] = count;
     }
 
-    const addExplosionCount = function(i,j){
+    const addExplosionCount = function (i, j) {
         if (i < 0 || i >= mapHeight)
             return;
         if (j < 0 || j >= mapWidth)
@@ -270,7 +270,7 @@ const Maps = function(ctx, ipt_map){
         explosionCount[i][j]++;
     }
 
-    const subExplosionCount = function(i,j,count){
+    const subExplosionCount = function (i, j, count) {
         if (i < 0 || i >= mapHeight)
             return;
         if (j < 0 || j >= mapWidth)
@@ -280,23 +280,23 @@ const Maps = function(ctx, ipt_map){
 
     // check i, j have buff or not
     // return buff type
-    const haveBuff = function(i,j){
-        if (!(objs[i][j]===null)){
+    const haveBuff = function (i, j) {
+        if (!(objs[i][j] === null)) {
             isBuff = false;
             objType = objs[i][j].getType()
             isBuff = isBuff || objType == objKey[4];
             isBuff = isBuff || objType == objKey[5];
             isBuff = isBuff || objType == objKey[6];
             isBuff = isBuff || objType == objKey[7];
-            if (isBuff){
-                clearObj(i,j,layer="objs");
+            if (isBuff) {
+                clearObj(i, j, layer = "objs");
                 return objType;
             }
         }
         return false;
     }
 
-    return{
+    return {
         draw: draw,
         getObjBox: getObjBox,
         isCollision: isCollision,

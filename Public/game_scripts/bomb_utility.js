@@ -37,12 +37,12 @@ const Bombs = function (ctx, players) {
             return false;
     }
 
-    
-    const placeBomb = function (player) {
+
+    const placeBomb = function (player, randomNubmer) {
         // check avaliable bomb
         if (player.stat.numBombs <= 0)
             return;
-        
+
         // get player current i, j index
         let i = player.getIJ().i;
         let j = player.getIJ().j;
@@ -100,7 +100,7 @@ const Bombs = function (ctx, players) {
                     // create explision sprites
                     ctx.setObj(i, j, "explosion", layer = "explosion");
                     ctx.addExplosionCount(i, j);
-                    
+
                     // check hit
                     for (const play of players) {
                         if (play.getIJ().i == i && play.getIJ().j == j) {
@@ -109,26 +109,26 @@ const Bombs = function (ctx, players) {
                             // console.log("P", player.PID, "hit P", play.PID, "at", play.getIJ().i, play.getIJ().j);
                         }
                     }
-                    
+
             }
 
             let p = 1;
-            if (dir != "mid"){
-                while (p <= player.stat.range){
+            if (dir != "mid") {
+                while (p <= player.stat.range) {
                     let stop = false;
                     objType = null
-                    
+
                     // stop the explision at bound and solid block
                     if (!(ctx.getObj(i + q * p, j + r * p).obj === null)) {
                         objType = ctx.getObj(i + q * p, j + r * p).obj.getType()
-                        if (objType == "bound" || objType == "solid"){
+                        if (objType == "bound" || objType == "solid") {
                             p--;
                             break;
                         }
                     }
-                    
+
                     // destory and stop at fragile block
-                    if (objType == "fragile"){
+                    if (objType == "fragile") {
                         stop = true;
                     }
 
@@ -136,9 +136,9 @@ const Bombs = function (ctx, players) {
                     ctx.clearObj(i + q * p, j + r * p, layer = "objs", exception);
 
                     // handle drop item
-                    if (stop && dropItem()){
+                    if (stop && dropItem()) {
                         ctx.clearObj(i + q * p, j + r * p, layer = "objsBox")
-                        ctx.setObj(i + q * p, j + r * p, "buff", layer="objs", hvBox=false);
+                        ctx.setObj(i + q * p, j + r * p, "buff", layer = "objs", hvBox = false, randomNubmer);
                     }
 
                     // prevent buggy overlapping animation
@@ -154,13 +154,13 @@ const Bombs = function (ctx, players) {
                         }
                     }
                     if (stop || p >= player.stat.range)
-                    break;
+                        break;
                     p++
                 }
             }
             // Remove "p" explosion animation at the "dir" direction
             const explosionTime = setTimeout(removeExplosion, 700, dir, p)
-            }
+        }
 
         function removeExplosion(dir, range) {
             let q = 0;
@@ -199,7 +199,7 @@ const Bombs = function (ctx, players) {
                 if (ctx.getExplosionCount(i + q * p, j + r * p) <= 0)
                     ctx.clearObj(i + q * p, j + r * p, layer = "explosion");
             }
-            
+
         }
     }
     return {

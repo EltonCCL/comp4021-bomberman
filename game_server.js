@@ -183,12 +183,21 @@ io.on("connection", (socket) => {
         socket.emit("users", JSON.stringify(onlineUsers));
     });
 
-    //boardcast the movement to all players
+    //broadcast the movement to all players
     socket.on("move", (data) => {
-        io.emit("move", { playerID: data.playerID, movement: data.movement, direction: data.direction });
+        //handle place bomb movement
+        if (data.movement == "bomb") {
+            // generate random nubmer from 0 - 3
+            let randomNumber = Math.floor(Math.random() * 4);
+            //use direction as the random index of the random dropped item
+            io.emit("move", { playerID: data.playerID, movement: data.movement, direction: randomNumber });
+        }
+        //handle move & cheat movement
+        else
+            io.emit("move", { playerID: data.playerID, movement: data.movement, direction: data.direction });
     });
 
-    //boardcast the join game event to all players
+    //broadcast the join game event to all players
     socket.on("join game", (data) => {
         io.emit("join game", { playerName: data.playerName, playerID: data.playerID })
     });

@@ -140,7 +140,7 @@ const game = (function () {
             players[playerID].stop(direction);
 
         if (movement == "bomb")
-            bombs.placeBomb(players[playerID]);
+            bombs.placeBomb(players[playerID], direction);
 
         if (movement == "speedUp")
             players[playerID].speedUp();

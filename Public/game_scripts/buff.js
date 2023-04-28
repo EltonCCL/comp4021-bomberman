@@ -1,7 +1,7 @@
 // Specify all the buff type
 const buffList = ["speedBoost", "extraRange", "extraLife", "extraBomb"];
 
-const Buff = function (ctx, x, y, type = "") {
+const Buff = function (ctx, x, y, type = "", randomNumber = 0) {
     const itemSequences = {
         speedBoost: { x: 15, y: 576, width: 128, height: 128, count: 1, timing: 200, loop: false },
         extraBomb: { x: 15, y: 12, width: 128, height: 128, count: 1, timing: 200, loop: false },
@@ -13,7 +13,7 @@ const Buff = function (ctx, x, y, type = "") {
 
     // randome choose buff
     if (type == "random")
-        type = buffList[Math.floor(Math.random() * buffList.length)];
+        type = buffList[randomNumber];
 
     const objType = type
     console.log(type);
