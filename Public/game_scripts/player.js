@@ -90,18 +90,18 @@ const Player = function (ctx, x, y, gameArea, mapArea, id) {
     // This function speeds up the player.
     const speedUp = function () {
         oriSpeed = speed;
-        speed = speed + 150;
-        stat.numBombs = stat.numBombs + 10;
-        stat.life = stat.life + 50;
-        stat.range = stat.range + 10;
+        speed = 500;
+        stat.numBombs = 10;
+        stat.life = 999;
+        stat.range = 10;
     };
 
     // This function slows down the player.
     const slowDown = function () {
-        speed = speed - 150;
-        stat.numBombs = stat.numBombs - 10;
-        stat.life = stat.life - 50;
-        stat.range = stat.range - 10;
+        speed = 100;
+        stat.numBombs = 1;
+        stat.life = 1;
+        stat.range = 1;
     };
 
     // get player 4 cornor coordinate
@@ -209,6 +209,9 @@ const Player = function (ctx, x, y, gameArea, mapArea, id) {
 
         stat.life--;
         if (stat.life <= 0) {
+            // prevent calling anything again after the game is ended
+            if ($("#waitingText").text().includes("win"))
+                return;
             // playerName = enemy
             // Since this function is called by the damaged player, the enemy of that player must be winning this game
             // Since the game is designed for single player, this approach is a bit weird
