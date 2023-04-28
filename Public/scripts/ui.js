@@ -1,6 +1,74 @@
-const SignInForm = (function () {
+const StartPage = (function() {
+    const initialize = function() {
+        $("#login").on("click", () => {
+            // TODO: go to login page
+        });
+        $("#instructions").on("click", () => {
+            // TODO: go to instructions page
+        });
+    };
+    const show = function() {
+
+    }
+    const hide = function() {
+
+    }
+    return { initialize, show, hide };
+})();
+
+const InstructionPage = (function() {
+    const initialize = function() {
+        $("#back-to-home").on("click", () => {
+            // TODO: back to start page
+        });
+    };
+
+    const show = function() {
+
+    }
+    const hide = function() {
+
+    }
+    return { initialize, show, hide };
+})();
+
+const LobbyPage = (function() {
+    const initialize = function() {
+        $("#ready").on("click", () => {
+            // TODO: add to wait queue of the game
+        });
+    }
+})();
+
+const GamePage = (function() {
+    const initialize = function() {
+
+    }
+    const show = function() {
+
+    }
+    const showEndGame = function() {
+
+    }
+    const hide = function() {
+
+    }
+    return { initialize, show, hide, showEndGame };
+})();
+const LoginPage = (function() {
+    const initialize = function() {};
+
+    const show = function() {
+
+    }
+    const hide = function() {
+
+    }
+})();
+/*
+const SignInForm = (function() {
     // This function initializes the UI
-    const initialize = function () {
+    const initialize = function() {
         // Populate the avatar selection
         Avatar.populate($("#register-avatar"));
 
@@ -69,12 +137,13 @@ const SignInForm = (function () {
             );
         });
 
-
+        // * where Player 1 joins the game
         $("#join-player1").on("click", () => {
             var playerName = Authentication.getUser().username;
             Socket.joinGame(playerName, 0);
         });
 
+        // * where Player 2 joins the game
         $("#join-player2").on("click", () => {
             var playerName = Authentication.getUser().username;
             Socket.joinGame(playerName, 1);
@@ -87,12 +156,12 @@ const SignInForm = (function () {
     };
 
     // This function shows the form
-    const show = function () {
+    const show = function() {
         $("#signin-overlay").fadeIn(500);
     };
 
     // This function hides the form
-    const hide = function () {
+    const hide = function() {
         $("#signin-form").get(0).reset();
         $("#signin-message").text("");
         $("#register-message").text("");
@@ -101,30 +170,30 @@ const SignInForm = (function () {
 
     return { initialize, show, hide };
 })();
+*/
 
 
 
 
-
-const UI = (function () {
-    // This function gets the user display
-    const getUserDisplay = function (user) {
-        return $("<div class='field-content row shadow'></div>")
-            .append($("<span class='user-avatar'>" +
-                Avatar.getCode(user.avatar) + "</span>"))
-            .append($("<span class='user-name'>" + user.name + "</span>"));
-    };
+const UI = (function() {
+    // // This function gets the user display
+    // const getUserDisplay = function (user) {
+    //     return $("<div class='field-content row shadow'></div>")
+    //         .append($("<span class='user-avatar'>" +
+    //             Avatar.getCode(user.avatar) + "</span>"))
+    //         .append($("<span class='user-name'>" + user.name + "</span>"));
+    // };
 
     // The components of the UI are put here
-    const components = [SignInForm];
+    const components = [StartPage, InstructionPage, GamePage, LoginPage, LobbyPage];
 
     // This function initializes the UI
-    const initialize = function () {
+    const initialize = function() {
         // Initialize the components
         for (const component of components) {
             component.initialize();
         }
     };
 
-    return { getUserDisplay, initialize };
+    return { initialize };
 })();

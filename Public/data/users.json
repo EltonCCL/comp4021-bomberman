@@ -33,5 +33,10 @@
   "avatar": "Koala",
   "name": "www",
   "password": "$2b$10$PlOPbbwTBUSzUNxiDK1hues7JLZIqSSX1HKqRShdmURRwc4VjOi0i"
+ },
+ "abc": {
+  "avatar": "Rabbit Face",
+  "name": "abc",
+  "password": "$2b$10$IiuTE3UWVQ5zDz3qSm1TKuL9sYvhnJH0d/Nyq8xtVM.u15lsrT3tG"
  }
 }

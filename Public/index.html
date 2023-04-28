@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <div id="container" class="col">
+    <!-- <div id="container" class="col">
         <div id="header" class="row">
             <div id="title">Bomberman
                 <span class="material-icons">chat</span>
@@ -77,8 +77,141 @@
                 <div id="register-message" class="warning center"></div>
             </form>
         </div>
-    </div>
+    </div> -->
+    <!-- Login Page -->
+    <div class="page-container" id="login-page">
+        <div class="login-section">
+            <h1 class="form-title">Login</h1>
+            <form>
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+                <input type="submit" value="Login">
+            </form>
+        </div>
 
+        <div class="register-section">
+            <h1 class="form-title">Register</h1>
+            <form>
+                <label for="reg-username">Username</label>
+                <input type="text" id="reg-username" name="reg-username" required>
+                <label for="reg-password">Password</label>
+                <input type="password" id="reg-password" name="reg-password" required>
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" name="confirm-password" required>
+                <input type="submit" value="Register">
+            </form>
+        </div>
+    </div>
+    <!-- Start Page -->
+    <div class="page-container" id="start-page">
+        <h1 class="start-page-title">Bomberman Game</h1>
+        <h2 class="start-page-button" id="login">Click Here to Login In</h2>
+        <h2 class="start-page-button" id="instructions">Click Here to Check Instructions</h2>
+    </div>
+    <!-- Game Page -->
+    <div class="page-containter" id="game-page">
+        <div class="game-screen">
+            <!-- TODO: Insert Game Screen here -->
+        </div>
+        <!-- Game end screen -->
+        <div class="game-end-screen">
+            <h1 class="win-message">You Win!</h1>
+            <div class="line" id="line1"></div>
+            <table class="game-end-table" id="game-stat">
+                <tr>
+                    <td class="title">Game Statistics:</td>
+                    <td class="col1">Placed Bombs:</td>
+                    <td class="col2">20</td>
+                </tr>
+                <tr>
+                    <td class="title"></td>
+                    <td class="col1">Destroyed Walls:</td>
+                    <td class="col2">67</td>
+                </tr>
+                <tr>
+                    <td class="title"></td>
+                    <td class="col1">Kills:</td>
+                    <td class="col2">2</td>
+                </tr>
+            </table>
+            <div class="line" id="line2"></div>
+            <table class="game-end-table" id="reward">
+                <tr>
+                    <td class="title">Rewards</td>
+                    <td class="col1">Points Scored:</td>
+                    <td class="col2">70.00</td>
+                </tr>
+                <tr>
+                    <td class="title"></td>
+                    <td class="col1">New Ranking:</td>
+                    <td class="col2">7</td>
+                </tr>
+            </table>
+            <button class="page-bottom-button" id="back-to-home">Back To Lobby</a>
+        </div>
+    </div>
+    <!-- Instruction Page -->
+    <div class="page-containter" id="instruction-page">
+        <div class="instruction-container">
+            <div class="instruction-wrapper">
+                <h2 class="instruction-title">Instructions</h2>
+                <button class="page-bottom-button" id="back-to-home">Back to Home Page</a>
+            </div>
+        </div>
+        <div class="instruction-text">
+            <ul>1. instruction dddddddddddddddddddddddd ddddddddddddddddddddddddddddddddd abc abas abaf abf abf abvcvba dfhfnf</ul>
+            <ul>2. </ul>
+            <ul>3. </ul>
+            <ul>4. </ul>
+            <ul>5. </ul>
+        </div>
+    </div>
+    <!-- Lobby Page -->
+    <div class="page-containter" id="lobby-page">
+        <div class="lobby-container">
+            <div class="lobby-list-container" id="online">
+                <h1 class="online-players">Online Players</h1>
+                <div class="table-container">
+                    <table class="table">
+                        <tr>
+                            <td>Player 1</td>
+                        </tr>
+                        <tr>
+                            <td>Player 2</td>
+                        </tr>
+                        <tr>
+                            <td>Player 3</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="lobby-list-container" id="ranking">
+                <h1 class="score-board">Scoreboard</h1>
+                <div class="table-container">
+                    <table class="table">
+                        <tr>
+                            <td>1</td>
+                            <td>Player 1</td>
+                            <td>200.00</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Player 2</td>
+                            <td>175.00</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Player 3</td>
+                            <td>100.00</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <button class="page-bottom-button" id="ready">Ready</a>
+        </div>
+    </div>
     <script src="/socket.io/socket.io.min.js"></script>
     <script src="scripts/socket.js"></script>
     <script src="scripts/avatar.js"></script>
@@ -98,7 +231,7 @@
     <script src="game_scripts/buff.js"></script>
     <script src="game_scripts/game.js"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             // Initialize the UI
             UI.initialize();
 
@@ -126,13 +259,11 @@
 
                     game.start();
                 },
-                () => { SignInForm.show(); }
+                () => {
+                    SignInForm.show();
+                }
             );
         });
-
-
-
-
     </script>
 </body>
 
