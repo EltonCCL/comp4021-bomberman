@@ -210,8 +210,10 @@ const Player = function (ctx, x, y, gameArea, mapArea, id) {
         stat.life--;
         if (stat.life <= 0) {
             // playerName = enemy
+            // Since this function is called by the damaged player, the enemy of that player must be winning this game
+            // Since the game is designed for single player, this approach is a bit weird
             var playerName = (playerID == 2) ? $("#join-player1").text() : $("#join-player2").text();
-            //only the winner send the end game event to server since the name will display on screen
+            // only the winner send the end game event to server since the name will display on screen
             if (Authentication.getUser().username == playerName)
                 Socket.endGame(playerName);
             stat.life = 0;
