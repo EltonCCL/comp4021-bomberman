@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Bomberman</title>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="container" class="col">
+        <div id="header" class="row">
+            <div id="title">Bomberman
+                <span class="material-icons">chat</span>
+            </div>
+
+            <div class="spacer-grow"></div>
+
+
+            <div id="user-panel" class="row">
+                <div class="field-content row shadow">
+                    <span class="user-avatar"></span>
+                    <span class="user-name">-</span>
+                </div>
+                <button id="signout-button" class="icon"><span class="material-icons">logout</span></button>
+            </div>
+        </div>
+
+        <div id="main-panel" class="row">
+
+            <div id="area">
+                <div id="container">
+                    <canvas id="game-canvas" width="1050px" height="550px"></canvas>
+                </div>
+                <div>
+                    <button id="join-player1">Player 1</button>
+                    <b id="waitingText">Waiting Player to join</b>
+                    <button id="join-player2">Player 2</button>
+                </div>
+
+                <div id="playerBorad">
+                    <button id="restart">Restart</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="signin-overlay" class="overlay row">
+        <div class="content shadow row">
+            <form id="signin-form" class="col">
+                <div class="caption">SIGN IN WITH YOUR ACCOUNT</div>
+                <div class="spacer-0"></div>
+                <input id="signin-username" placeholder="Enter your username"></input>
+                <input id="signin-password" type="password" placeholder="Enter your password"></input>
+                <div class="spacer-0"></div>
+                <button type="submit">Sign In</button>
+                <div id="signin-message" class="warning center"></div>
+                <div class="spacer-grow"></div>
+            </form>
+
+            <div class="spacer-0"></div>
+
+            <form id="register-form" class="col">
+                <div class="caption">OR, REGISTER IF YOU DO NOT HAVE ONE</div>
+                <div class="spacer-0"></div>
+                <input id="register-username" maxlength="10" placeholder="Enter your username"></input>
+                <select id="register-avatar">
+                    <option value="">Select your avatar</option>
+                </select>
+                <input id="register-name" maxlength="16" placeholder="Enter your name"></input>
+                <input id="register-password" type="password" placeholder="Enter your password"></input>
+                <input id="register-confirm" type="password" placeholder="Enter your password again"></input>
+                <div class="spacer-0"></div>
+                <button type="submit">Register</button>
+                <div id="register-message" class="warning center"></div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.min.js"></script>
+    <script src="scripts/socket.js"></script>
+    <script src="scripts/avatar.js"></script>
+    <script src="scripts/ui.js"></script>
+    <script src="scripts/registration.js"></script>
+    <script src="scripts/authentication.js"></script>
+    <!-- <script src="Scripts/bounding_obj_box.js"></script> -->
+    <script src="game_scripts/bounding_box.js"></script>
+    <script src="game_scripts/map_design.js"></script>
+    <script src="game_scripts/sprite.js"></script>
+    <script src="game_scripts/bomb.js"></script>
+    <script src="game_scripts/explosion.js"></script>
+    <script src="game_scripts/bomb_utility.js"></script>
+    <script src="game_scripts/player.js"></script>
+    <script src="game_scripts/wall.js"></script>
+    <script src="game_scripts/maps.js"></script>
+    <script src="game_scripts/buff.js"></script>
+    <script src="game_scripts/game.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Initialize the UI
+            UI.initialize();
+
+            //TODO: create front page
+
+            // Validate the signin
+            Authentication.validate(
+                () => {
+                    SignInForm.hide();
+                    let user = Authentication.getUser();
+                    $("#user-panel .user-avatar").html(Avatar.getCode(user.avatar));
+                    $("#user-panel .user-name").text(user.name);
+                    $("#signout-button").on("click", () => {
+                        Authentication.signout(
+                            () => {
+                                Socket.disconnect();
+
+                                hide();
+                                SignInForm.show();
+                            }
+                        );
+                    });
+
+                    Socket.connect();
+
+                    game.start();
+                },
+                () => { SignInForm.show(); }
+            );
+        });
+
+
+
+
+    </script>
+</body>
+
+</html>
