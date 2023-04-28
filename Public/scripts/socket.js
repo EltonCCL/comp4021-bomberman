@@ -39,7 +39,7 @@ const Socket = (function () {
 
         socket.on("end game", (winner) => {
             $("#game-canvas").css('opacity', '0.1');
-            $("#waitingText").html(winner + "");
+            $("#waitingText").html(winner + " win the game!");
             getLeaderboard();
         });
 
