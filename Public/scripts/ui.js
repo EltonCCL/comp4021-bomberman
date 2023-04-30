@@ -57,6 +57,7 @@ const LobbyPage = (function() {
             Socket.joinGame(playerName, 0);
             $("#ready").css('background-color', '#9c7d0a');
             $("#ready").text('Waiting');
+            $("#ready").prop('disabled', true);
         });
 
         $("#lobby-page").on("load", () => {
