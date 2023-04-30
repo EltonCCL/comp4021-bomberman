@@ -78,22 +78,24 @@
             </form>
         </div>
     </div> -->
+
     <!-- Login Page -->
     <div class="page-container" id="login-page">
         <div class="login-section">
             <h1 class="form-title">Login</h1>
-            <form>
+            <form id="login-form">
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
+                <input type="text" id="signin-username" name="username" required>
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+                <input type="password" id="signin-password" name="password" required>
                 <input type="submit" value="Login">
+                <div id="signin-message" class="warning center">Sample Error Msg</div>
             </form>
         </div>
 
         <div class="register-section">
             <h1 class="form-title">Register</h1>
-            <form>
+            <form id="reg-form">
                 <label for="reg-username">Username</label>
                 <input type="text" id="reg-username" name="reg-username" required>
                 <label for="reg-password">Password</label>
@@ -101,6 +103,7 @@
                 <label for="confirm-password">Confirm Password</label>
                 <input type="password" id="confirm-password" name="confirm-password" required>
                 <input type="submit" value="Register">
+                <div id="register-message" class="warning center">Error Occurred</div>
             </form>
         </div>
     </div>
@@ -116,7 +119,7 @@
             <!-- TODO: Insert Game Screen here -->
         </div>
         <!-- Game end screen -->
-        <div class="game-end-screen">
+        <div class="game-end-screen" id="game-end-screen">
             <h1 class="win-message">You Win!</h1>
             <div class="line" id="line1"></div>
             <table class="game-end-table" id="game-stat">
@@ -157,16 +160,17 @@
         <div class="instruction-container">
             <div class="instruction-wrapper">
                 <h2 class="instruction-title">Instructions</h2>
-                <button class="page-bottom-button" id="back-to-home">Back to Home Page</a>
-            </div>
+                <button class="page-bottom-button" id="instruction-home">Back to Home Page</button>
         </div>
-        <div class="instruction-text">
-            <ul>1. instruction dddddddddddddddddddddddd ddddddddddddddddddddddddddddddddd abc abas abaf abf abf abvcvba dfhfnf</ul>
-            <ul>2. </ul>
-            <ul>3. </ul>
-            <ul>4. </ul>
-            <ul>5. </ul>
-        </div>
+    </div>
+    <div class="instruction-text">
+        <!-- TODO: type all instructions here -->
+        <ul>1. instruction dddddddddddddddddddddddd ddddddddddddddddddddddddddddddddd abc abas abaf abf abf abvcvba dfhfnf</ul>
+        <ul>2. </ul>
+        <ul>3. </ul>
+        <ul>4. </ul>
+        <ul>5. </ul>
+    </div>
     </div>
     <!-- Lobby Page -->
     <div class="page-containter" id="lobby-page">
@@ -174,7 +178,7 @@
             <div class="lobby-list-container" id="online">
                 <h1 class="online-players">Online Players</h1>
                 <div class="table-container">
-                    <table class="table">
+                    <table class="table" id="online-players-table">
                         <tr>
                             <td>Player 1</td>
                         </tr>
@@ -190,7 +194,7 @@
             <div class="lobby-list-container" id="ranking">
                 <h1 class="score-board">Scoreboard</h1>
                 <div class="table-container">
-                    <table class="table">
+                    <table class="table" id="players-ranking-table">
                         <tr>
                             <td>1</td>
                             <td>Player 1</td>
@@ -209,7 +213,7 @@
                     </table>
                 </div>
             </div>
-            <button class="page-bottom-button" id="ready">Ready</a>
+            <button class="page-bottom-button" id="ready">Ready</button>
         </div>
     </div>
     <script src="/socket.io/socket.io.min.js"></script>
@@ -235,34 +239,33 @@
             // Initialize the UI
             UI.initialize();
 
-            //TODO: create front page
+            // // Validate the signin
+            // Authentication.validate(
+            //     () => {
+            //         // SignInForm.hide();
+            //         // let user = Authentication.getUser();
+            //         // $("#user-panel .user-avatar").html(Avatar.getCode(user.avatar));
+            //         // $("#user-panel .user-name").text(user.name);
+            //         // $("#signout-button").on("click", () => {
+            //         //     Authentication.signout(
+            //         //         () => {
+            //         //             Socket.disconnect();
 
-            // Validate the signin
-            Authentication.validate(
-                () => {
-                    SignInForm.hide();
-                    let user = Authentication.getUser();
-                    $("#user-panel .user-avatar").html(Avatar.getCode(user.avatar));
-                    $("#user-panel .user-name").text(user.name);
-                    $("#signout-button").on("click", () => {
-                        Authentication.signout(
-                            () => {
-                                Socket.disconnect();
+            //         //             hide();
+            //         //             SignInForm.show();
+            //         //         }
+            //         //     );
+            //         // });
 
-                                hide();
-                                SignInForm.show();
-                            }
-                        );
-                    });
+            //         LobbyPage.show();
+            //         Socket.connect();
 
-                    Socket.connect();
-
-                    game.start();
-                },
-                () => {
-                    SignInForm.show();
-                }
-            );
+            //         game.start();
+            //     },
+            //     () => {
+            //         // SignInForm.show();
+            //     }
+            // );
         });
     </script>
 </body>
