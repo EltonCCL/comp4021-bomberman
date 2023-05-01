@@ -48,16 +48,28 @@ const InstructionPage = (function() {
 
 const LobbyPage = (function() {
     const initialize = function() {
-        $("#ready").click(() => {
+        const player1Join = $("#join-player1");
+        player1Join.click(() => {
             // * add to wait queue of the game
             var playerName = Authentication.getUser().username;
             console.log(`${playerName} is ready to play`);
             // TODO: Make the server pair player automatically
             // the join Game function should take playerName as parameter only
             Socket.joinGame(playerName, 0);
-            $("#ready").css('background-color', '#9c7d0a');
-            $("#ready").text('Waiting');
-            $("#ready").prop('disabled', true);
+            // player1Join.css('background-color', '#9c7d0a');
+            // player1Join.text('Waiting Player 2 to join');
+            // player1Join.prop('disabled', true);
+        });
+
+        const player2Join = $("#join-player2");
+        player2Join.click(() => {
+            // * add to wait queue of the game
+            var playerName = Authentication.getUser().username;
+            console.log(`${playerName} is ready to play`);
+            Socket.joinGame(playerName, 1);
+            // player2Join.css('background-color', '#9c7d0a');
+            // player2Join.text('Waiting player 1 to join');
+            // player2Join.prop('disabled', true);
         });
 
         $("#lobby-page").on("load", () => {
@@ -83,14 +95,26 @@ const LobbyPage = (function() {
 
 const GamePage = (function() {
     const initialize = function() {
+        $("#back-to-home").click(function() {
+            hide();
+            LobbyPage.show();
+            // TODO: check if both the ready button is reset to the initial status
+        })
         hide();
     }
     const show = function() {
         console.log('showing game page.');
         $("#game-page").show();
     }
-    const showEndGame = function() {
+    const showEndGame = function(isWinner, placedBombs, destroyedWalls, kills,
+        pointsScored, newRanking) {
         console.log('showing end game window.');
+        (isWinner) ? $("#is-winner").text("You Win!"): $("#is-winner").text("You Lose!");
+        $("#placed-bombs").text(placedBombs);
+        $("#destroyed-walls").text(destroyedWalls);
+        $("#player-kills").text(kills);
+        $("#points-scored").text(pointsScored);
+        $("#new-ranking").text(newRanking);
         $("#game-end-screen").show();
     }
     const hideEndGame = function() {
@@ -125,18 +149,6 @@ const LoginPage = (function() {
                 () => {
                     hide();
                     let user = Authentication.getUser();
-                    // $("#user-panel .user-avatar").html(Avatar.getCode(user.avatar));
-                    // $("#user-panel .user-name").text(user.name);
-                    // $("#signout-button").on("click", () => {
-                    //     Authentication.signout(
-                    //         () => {
-                    //             Socket.disconnect();
-
-                    //             hide();
-                    //             SignInForm.show();
-                    //         }
-                    //     );
-                    // });
 
                     Socket.connect();
                     // game.start();
@@ -173,18 +185,6 @@ const LoginPage = (function() {
                 (error) => { $("#register-message").text(error); }
             );
         });
-
-        // // * where Player 1 joins the game
-        // $("#join-player1").on("click", () => {
-        //     var playerName = Authentication.getUser().username;
-        //     Socket.joinGame(playerName, 0);
-        // });
-
-        // // * where Player 2 joins the game
-        // $("#join-player2").on("click", () => {
-        //     var playerName = Authentication.getUser().username;
-        //     Socket.joinGame(playerName, 1);
-        // });
 
         // // simple restart button to refresh the page
         // $("#restart").on("click", () => {
@@ -324,5 +324,12 @@ const UI = (function() {
         }
     };
 
+    const startGame = function() {
+        LobbyPage.hide();
+        GamePage.show();
+    }
+    const endGame = function() {
+        GamePage.showEndGame();
+    }
     return { initialize };
 })();

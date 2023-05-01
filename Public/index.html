@@ -116,43 +116,48 @@
     <!-- Game Page -->
     <div class="page-containter" id="game-page">
         <div class="game-screen">
-            <!-- TODO: Insert Game Screen here -->
+            <div id="area">
+                <div id="container">
+                    <canvas id="game-canvas" width="1050px" height="550px"></canvas>
+                </div>
+            </div>
         </div>
-        <!-- Game end screen -->
-        <div class="game-end-screen" id="game-end-screen">
-            <h1 class="win-message">You Win!</h1>
-            <div class="line" id="line1"></div>
-            <table class="game-end-table" id="game-stat">
-                <tr>
-                    <td class="title">Game Statistics:</td>
-                    <td class="col1">Placed Bombs:</td>
-                    <td class="col2">20</td>
-                </tr>
-                <tr>
-                    <td class="title"></td>
-                    <td class="col1">Destroyed Walls:</td>
-                    <td class="col2">67</td>
-                </tr>
-                <tr>
-                    <td class="title"></td>
-                    <td class="col1">Kills:</td>
-                    <td class="col2">2</td>
-                </tr>
-            </table>
-            <div class="line" id="line2"></div>
-            <table class="game-end-table" id="reward">
-                <tr>
-                    <td class="title">Rewards</td>
-                    <td class="col1">Points Scored:</td>
-                    <td class="col2">70.00</td>
-                </tr>
-                <tr>
-                    <td class="title"></td>
-                    <td class="col1">New Ranking:</td>
-                    <td class="col2">7</td>
-                </tr>
-            </table>
-            <button class="page-bottom-button" id="back-to-home">Back To Lobby</a>
+    </div>
+    <!-- Game end screen -->
+    <div class="game-end-screen" id="game-end-screen">
+        <h1 class="win-message" id="is-winner">You Win!</h1>
+        <div class="line" id="line1"></div>
+        <table class="game-end-table" id="game-stat">
+            <tr>
+                <td class="title">Game Statistics:</td>
+                <td class="col1">Placed Bombs:</td>
+                <td class="col2" id="placed-bombs">20</td>
+            </tr>
+            <tr>
+                <td class="title"></td>
+                <td class="col1">Destroyed Walls:</td>
+                <td class="col2" id="destroyed-walls">67</td>
+            </tr>
+            <tr>
+                <td class="title"></td>
+                <td class="col1">Kills:</td>
+                <td class="col2" id="player-kills">2</td>
+            </tr>
+        </table>
+        <div class="line" id="line2"></div>
+        <table class="game-end-table" id="reward">
+            <tr>
+                <td class="title">Rewards</td>
+                <td class="col1">Points Scored:</td>
+                <td class="col2" id="points-scored">70.00</td>
+            </tr>
+            <tr>
+                <td class="title"></td>
+                <td class="col1">New Ranking:</td>
+                <td class="col2" id="new-ranking">7</td>
+            </tr>
+        </table>
+        <button class="page-bottom-button" id="back-to-home">Back To Lobby</a>
         </div>
     </div>
     <!-- Instruction Page -->
@@ -161,7 +166,7 @@
             <div class="instruction-wrapper">
                 <h2 class="instruction-title">Instructions</h2>
                 <button class="page-bottom-button" id="instruction-home">Back to Home Page</button>
-        </div>
+    </div>
     </div>
     <div class="instruction-text">
         <!-- TODO: type all instructions here -->
@@ -190,6 +195,7 @@
                         </tr>
                     </table>
                 </div>
+                <button class="page-bottom-button" id="join-player1">Player 1 Click this to join</button>
             </div>
             <div class="lobby-list-container" id="ranking">
                 <h1 class="score-board">Scoreboard</h1>
@@ -212,8 +218,8 @@
                         </tr>
                     </table>
                 </div>
+                <button class="page-bottom-button" id="join-player2">Player 2 Click this to join</button>
             </div>
-            <button class="page-bottom-button" id="ready">Ready</button>
         </div>
     </div>
     <script src="/socket.io/socket.io.min.js"></script>

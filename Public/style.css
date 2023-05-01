@@ -344,3 +344,19 @@ body::before {
 #reward {
     top: 58%;
 }
+
+#join-player1 {
+    width: 350px;
+    position: fixed;
+    left: 25%;
+    bottom: 50px;
+    transform: translate(-50%);
+}
+
+#join-player2 {
+    position: fixed;
+    width: 350px;
+    right: 30%;
+    bottom: 50px;
+    transform: translate(50%);
+}
