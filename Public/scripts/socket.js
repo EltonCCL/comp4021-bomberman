@@ -35,6 +35,7 @@ const Socket = (function() {
                 $("#game-canvas").css('opacity', '1');
                 $("#waitingText").html("Game Start!");
                 UI.startGame();
+                game.start();
             }
         });
 
@@ -43,8 +44,8 @@ const Socket = (function() {
             $("#waitingText").html(winner + " win the game!");
             // disable all onclick listener
             $(document).unbind();
-            UI.endGame();
             getLeaderboard();
+            UI.endGame(); // TODO: pass in arguments for showing the game stat after end game
         });
 
         socket.on("restart", () => {
