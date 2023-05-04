@@ -309,8 +309,6 @@ const SignInForm = (function() {
 */
 
 
-
-
 const UI = (function() {
 
     // The components of the UI are put here
@@ -331,5 +329,5 @@ const UI = (function() {
     const endGame = function() {
         GamePage.showEndGame();
     }
-    return { initialize };
+    return { initialize, startGame, endGame };
 })();

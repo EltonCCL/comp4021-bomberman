@@ -360,3 +360,10 @@ body::before {
     bottom: 50px;
     transform: translate(50%);
 }
+
+
+/* Gaming Canvas */
+
+#game-canvas {
+    margin-bottom: 10px;
+}
