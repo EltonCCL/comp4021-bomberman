@@ -97,7 +97,9 @@ const GamePage = (function() {
     const initialize = function() {
         $("#back-to-home").click(function() {
             hide();
-            LobbyPage.show();
+            // LobbyPage.show();
+            Socket.restartGame();
+
             // TODO: check if both the ready button is reset to the initial status
         });
         // // simple restart button to refresh the page

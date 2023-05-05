@@ -89,7 +89,7 @@
                 <label for="password">Password</label>
                 <input type="password" id="signin-password" name="password" required>
                 <input type="submit" value="Login">
-                <div id="signin-message" class="warning center">Sample Error Msg</div>
+                <div id="signin-message" class="warning center"></div>
             </form>
         </div>
 
@@ -103,7 +103,7 @@
                 <label for="confirm-password">Confirm Password</label>
                 <input type="password" id="confirm-password" name="confirm-password" required>
                 <input type="submit" value="Register">
-                <div id="register-message" class="warning center">Error Occurred</div>
+                <div id="register-message" class="warning center"></div>
             </form>
         </div>
     </div>
@@ -250,33 +250,34 @@
             // Initialize the UI
             UI.initialize();
 
-            // // Validate the signin
-            // Authentication.validate(
-            //     () => {
-            //         // SignInForm.hide();
-            //         // let user = Authentication.getUser();
-            //         // $("#user-panel .user-avatar").html(Avatar.getCode(user.avatar));
-            //         // $("#user-panel .user-name").text(user.name);
-            //         // $("#signout-button").on("click", () => {
-            //         //     Authentication.signout(
-            //         //         () => {
-            //         //             Socket.disconnect();
+            // Validate the signin
+            Authentication.validate(
+                () => {
+                    // SignInForm.hide();
+                    // let user = Authentication.getUser();
+                    // $("#user-panel .user-avatar").html(Avatar.getCode(user.avatar));
+                    // $("#user-panel .user-name").text(user.name);
+                    // $("#signout-button").on("click", () => {
+                    //     Authentication.signout(
+                    //         () => {
+                    //             Socket.disconnect();
 
-            //         //             hide();
-            //         //             SignInForm.show();
-            //         //         }
-            //         //     );
-            //         // });
+                    //             hide();
+                    //             SignInForm.show();
+                    //         }
+                    //     );
+                    // });
 
-            //         LobbyPage.show();
-            //         Socket.connect();
-
-            //         game.start();
-            //     },
-            //     () => {
-            //         // SignInForm.show();
-            //     }
-            // );
+                    LobbyPage.show();
+                    StartPage.hide();
+                    Socket.connect();
+                    game.start();
+                },
+                () => {
+                    // SignInForm.show();
+                    StartPage.show();
+                }
+            );
         });
     </script>
 </body>
