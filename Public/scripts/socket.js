@@ -69,7 +69,9 @@ const Socket = (function () {
 
     // post movement to server (called by game.js)
     const postMovement = function (movement, direction) {
-        socket.emit("move", { playerID: _playerID, movement: movement, direction: direction });
+        setTimeout(function () {
+            socket.emit("move", { playerID: _playerID, movement: movement, direction: direction });
+        }, 10);
     }
 
     // post player data to server (called by ui.js)

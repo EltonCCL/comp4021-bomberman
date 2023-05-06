@@ -16,7 +16,6 @@ const Buff = function (ctx, x, y, type = "", randomNumber = 0) {
         type = buffList[randomNumber];
 
     const objType = type
-    console.log(type);
     switch (type) {
         case 'speedBoost':
             buffType = itemSequences.speedBoost;

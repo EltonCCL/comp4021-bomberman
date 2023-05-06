@@ -185,16 +185,18 @@ io.on("connection", (socket) => {
 
     //broadcast the movement to all players
     socket.on("move", (data) => {
-        //handle place bomb movement
-        if (data.movement == "bomb") {
-            // generate random nubmer from 0 - 3
-            let randomNumber = Math.floor(Math.random() * 4);
-            //use direction as the random index of the random dropped item
-            io.emit("move", { playerID: data.playerID, movement: data.movement, direction: randomNumber });
-        }
-        //handle move & cheat movement
-        else
-            io.emit("move", { playerID: data.playerID, movement: data.movement, direction: data.direction });
+        setTimeout(function () {
+            //handle place bomb movement
+            if (data.movement == "bomb") {
+                // generate random nubmer from 0 - 3
+                let randomNumber = Math.floor(Math.random() * 4);
+                //use direction as the random index of the random dropped item
+                io.emit("move", { playerID: data.playerID, movement: data.movement, direction: randomNumber });
+            }
+            //handle move & cheat movement
+            else
+                io.emit("move", { playerID: data.playerID, movement: data.movement, direction: data.direction });
+        }, 10);
     });
 
     //broadcast the join game event to all players

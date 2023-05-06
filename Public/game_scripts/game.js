@@ -4,6 +4,7 @@ const game = (function () {
     const players = [];
     let bombs = null;
     let playerID = null;
+    let allowMove = true;
 
     const start = function () {
 
@@ -81,49 +82,51 @@ const game = (function () {
         }
         // Handle player movement
         $(document).on("keydown", function (event) {
-            switch (event.keyCode) {
-                case 32:
-                    Socket.postMovement("speedUp", 0);
-                    break;
-                case 37:
-                    Socket.postMovement("move", 1);
-                    break;
-                case 38:
-                    Socket.postMovement("move", 2);
-                    break;
-                case 39:
-                    Socket.postMovement("move", 3);
-                    break;
-                case 40:
-                    Socket.postMovement("move", 4);
-                    break;
-                case 77:
-                    Socket.postMovement("bomb", 0);
-                    break;
-            }
-
+            setTimeout(function () {
+                switch (event.keyCode) {
+                    case 32:
+                        Socket.postMovement("speedUp", 0);
+                        break;
+                    case 37:
+                        Socket.postMovement("move", 1);
+                        break;
+                    case 38:
+                        Socket.postMovement("move", 2);
+                        break;
+                    case 39:
+                        Socket.postMovement("move", 3);
+                        break;
+                    case 40:
+                        Socket.postMovement("move", 4);
+                        break;
+                    case 77:
+                        Socket.postMovement("bomb", 0);
+                        break;
+                }
+            }, 20);
         });
 
         /* Handle the keyup of arrow keys and spacebar */
         $(document).on("keyup", function (event) {
-            switch (event.keyCode) {
-                case 32:
-                    Socket.postMovement("slowDown", 0);
-                    break;
-                case 37:
-                    Socket.postMovement("stop", 1);
-                    break;
-                case 38:
-                    Socket.postMovement("stop", 2);
-                    break;
-                case 39:
-                    Socket.postMovement("stop", 3);
-                    break;
-                case 40:
-                    Socket.postMovement("stop", 4);
-                    break;
-            }
-
+            setTimeout(function () {
+                switch (event.keyCode) {
+                    case 32:
+                        Socket.postMovement("slowDown", 0);
+                        break;
+                    case 37:
+                        Socket.postMovement("stop", 1);
+                        break;
+                    case 38:
+                        Socket.postMovement("stop", 2);
+                        break;
+                    case 39:
+                        Socket.postMovement("stop", 3);
+                        break;
+                    case 40:
+                        Socket.postMovement("stop", 4);
+                        break;
+                }
+            }, 20);
         });
 
         /* Start the game */
@@ -148,6 +151,8 @@ const game = (function () {
         if (movement == "slowDown")
             players[playerID].slowDown();
     }
+
+
 
 
     return { start, move };
