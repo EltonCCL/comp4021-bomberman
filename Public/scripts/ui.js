@@ -110,11 +110,14 @@ const GamePage = (function() {
     }
     const show = function() {
         console.log('showing game page.');
+        sounds.gameplay.loop=true;
+        sounds.gameplay.play();
         $("#game-page").show();
     }
     const showEndGame = function(isWinner, placedBombs, destroyedWalls, kills,
         pointsScored, newRanking) {
         console.log('showing end game window.');
+        sounds.gameplay.pause();
         (isWinner) ? $("#is-winner").text("You Win!"): $("#is-winner").text("You Lose!");
         $("#placed-bombs").text(placedBombs);
         $("#destroyed-walls").text(destroyedWalls);

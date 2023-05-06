@@ -159,6 +159,8 @@ const Player = function (ctx, x, y, gameArea, mapArea, id) {
 
             buff = mapArea.haveBuff(iIndex, jIndex)
             if (buff) {
+                // sounds.buff.currentTime = 0;
+                // sounds.buff.play();
                 updateStat(buff);
                 // console.log(buff);
             }
