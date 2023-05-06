@@ -1,19 +1,21 @@
-const Socket = (function() {
+const Socket = (function () {
     // This stores the current Socket.IO socket
     let socket = null;
     let _playerID = null;
     // This function gets the socket from the module
-    const getSocket = function() {
+    const getSocket = function () {
         return socket;
     };
     // This function connects the server and initializes the socket
-    const connect = function() {
+    const connect = function () {
         socket = io();
         // Wait for the socket to connect successfully
 
         // Set up the movement event
         socket.on("move", (data) => {
-            game.move(data.playerID, data.movement, data.direction);
+            setTimeout(function () {
+                game.move(data.playerID, data.movement, data.direction);
+            }, 10);
         });
 
 
@@ -60,33 +62,33 @@ const Socket = (function() {
     };
 
     // This function disconnects the socket from the server
-    const disconnect = function() {
+    const disconnect = function () {
         socket.disconnect();
         socket = null;
     };
 
     // post movement to server (called by game.js)
-    const postMovement = function(movement, direction) {
+    const postMovement = function (movement, direction) {
         socket.emit("move", { playerID: _playerID, movement: movement, direction: direction });
     }
 
     // post player data to server (called by ui.js)
-    const joinGame = function(playerName, playerID) {
+    const joinGame = function (playerName, playerID) {
         _playerID = playerID
         socket.emit("join game", { playerName: playerName, playerID: playerID });
     }
 
     // post the winner player name to server
-    const endGame = function(playerName) {
+    const endGame = function (playerName) {
         socket.emit("end game", playerName);
     }
 
-    const restartGame = function() {
+    const restartGame = function () {
         socket.emit("restart", true);
     }
 
     // get all players rank
-    const getLeaderboard = function() {
+    const getLeaderboard = function () {
         socket.emit("get leaderboard", true);
     }
 
