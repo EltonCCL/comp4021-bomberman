@@ -98,6 +98,7 @@ const game = (function () {
                 switch (event.keyCode) {
                     case 32:
                         Socket.postMovement("speedUp", 0);
+                        $("#playerBorad").css("color", "red");
                         break;
                     case 37:
                         Socket.postMovement("move", 1);
@@ -124,6 +125,7 @@ const game = (function () {
                 switch (event.keyCode) {
                     case 32:
                         Socket.postMovement("slowDown", 0);
+                        $("#playerBorad").css("color", "white");
                         break;
                     case 37:
                         Socket.postMovement("stop", 1);
