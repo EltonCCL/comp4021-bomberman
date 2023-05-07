@@ -156,14 +156,13 @@ app.get("/signout", (req, res) => {
 });
 
 
-//
-// ***** Please insert your Lab 6 code here *****
-//
+
 const { createServer } = require("http");
 const { Server } = require("socket.io");
 const httpServer = createServer(app);
 const io = new Server(httpServer);
 const onlineUsers = {};
+let players = { player1: null, player2: null };
 io.on("connection", (socket) => {
     if (socket.request.session.user) {
         const { username, avatar, name } = socket.request.session.user;
@@ -178,6 +177,8 @@ io.on("connection", (socket) => {
             //console.log(onlineUsers);
             io.emit("remove user", JSON.stringify(socket.request.session.user));
         }
+        players["player1"] = null;
+        players["player2"] = null;
     })
     socket.on("get users", () => {
         socket.emit("users", JSON.stringify(onlineUsers));
@@ -201,6 +202,13 @@ io.on("connection", (socket) => {
 
     //broadcast the join game event to all players
     socket.on("join game", (data) => {
+        console.log(data);
+        if (data.playerID == 0) {
+            players["player1"] = data.playerName;
+        }
+        else if (data.playerID == 1) {
+            players["player2"] = data.playerName;
+        }
         io.emit("join game", { playerName: data.playerName, playerID: data.playerID });
     });
 
@@ -218,6 +226,8 @@ io.on("connection", (socket) => {
         }
         fs.writeFileSync("public/data/leaderboard.json", JSON.stringify(content));
         io.emit("end game", data);
+        players["player1"] = null;
+        players["player2"] = null;
     });
 
     //broadcast restart game event to all players
@@ -228,6 +238,11 @@ io.on("connection", (socket) => {
     socket.on("get leaderboard", () => {
         let content = JSON.parse(fs.readFileSync("public/data/leaderboard.json"));
         socket.emit("get leaderboard", content);
+    });
+
+    socket.on("get currentPlayer", () => {
+        console.log(players);
+        io.emit("get currentPlayer", players);
     });
 
 });

@@ -156,6 +156,7 @@ const LoginPage = (function () {
 
                     Socket.connect();
                     Socket.getLeaderboard();
+                    Socket.getCurrentPlayer();
                     LobbyPage.show();
                 },
                 (error) => { $("#signin-message").text(error); }

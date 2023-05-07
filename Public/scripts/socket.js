@@ -79,6 +79,18 @@ const Socket = (function () {
                 scoreCell.textContent = data[1];
             });
         });
+
+        socket.on("get currentPlayer", (players) => {
+            console.log(players);
+            if (players["player1"] != null) {
+                $("#join-player1").html(players["player1"]);
+                $("#join-player1").css("background", "blue");
+            }
+            if (players["player2"] != null) {
+                $("#join-player2").html(players["player2"]);
+                $("#join-player2").css("background", "blue");
+            }
+        });
     };
 
     // This function disconnects the socket from the server
@@ -114,5 +126,9 @@ const Socket = (function () {
         socket.emit("get leaderboard", true);
     }
 
-    return { getSocket, connect, disconnect, postMessage, postMovement, joinGame, endGame, restartGame, getLeaderboard };
+    const getCurrentPlayer = function () {
+        socket.emit("get currentPlayer", true);
+    }
+
+    return { getSocket, connect, disconnect, postMessage, postMovement, joinGame, endGame, restartGame, getLeaderboard, getCurrentPlayer };
 })();
