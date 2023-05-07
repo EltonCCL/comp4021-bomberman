@@ -202,7 +202,6 @@ io.on("connection", (socket) => {
 
     //broadcast the join game event to all players
     socket.on("join game", (data) => {
-        console.log(data);
         if (data.playerID == 0) {
             players["player1"] = data.playerName;
         }
@@ -241,7 +240,6 @@ io.on("connection", (socket) => {
     });
 
     socket.on("get currentPlayer", () => {
-        console.log(players);
         io.emit("get currentPlayer", players);
     });
 

@@ -81,7 +81,6 @@ const Socket = (function () {
         });
 
         socket.on("get currentPlayer", (players) => {
-            console.log(players);
             if (players["player1"] != null) {
                 $("#join-player1").html(players["player1"]);
                 $("#join-player1").css("background", "blue");
