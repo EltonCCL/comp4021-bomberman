@@ -43,10 +43,12 @@ const Socket = (function () {
 
         socket.on("end game", (winner) => {
             $("#game-canvas").css('opacity', '0.1');
-            $("#waitingText").html(winner + " win the game!");
+            $("#is-winner").html(winner + " win the game!");
             // disable all onclick listener
             $(document).unbind();
             getLeaderboard();
+            //CLONE leaderboard
+            $("#playerBorad").clone().prependTo("#game-stat");
             UI.endGame(); // TODO: pass in arguments for showing the game stat after end game
         });
 
@@ -56,9 +58,27 @@ const Socket = (function () {
 
         // TODO : create a leaderboard with below data
         socket.on("get leaderboard", (leaderboard) => {
-            console.log("Leaderboard: " + leaderboard);
-        });
+            var leaderboardArray = Object.entries(leaderboard);
+            // sorting ranks
+            leaderboardArray.sort(function (a, b) {
+                return b[1] - a[1];
+            });
 
+            // use getElement to get object instead of jquery
+            var tableBody = document.getElementById("table-body");
+
+            // loop & get all data
+            leaderboardArray.forEach(function (data, index) {
+                var row = tableBody.insertRow(); // Create a new row
+                // Create cells and populate with data
+                var rankingCell = row.insertCell();
+                rankingCell.textContent = index + 1;
+                var nameCell = row.insertCell();
+                nameCell.textContent = data[0];
+                var scoreCell = row.insertCell();
+                scoreCell.textContent = data[1];
+            });
+        });
     };
 
     // This function disconnects the socket from the server

@@ -227,11 +227,8 @@ io.on("connection", (socket) => {
 
     socket.on("get leaderboard", () => {
         let content = JSON.parse(fs.readFileSync("public/data/leaderboard.json"));
-        io.emit("get leaderboard", content);
+        socket.emit("get leaderboard", content);
     });
-
-
-
 
 });
 

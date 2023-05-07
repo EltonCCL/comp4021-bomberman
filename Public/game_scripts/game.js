@@ -29,10 +29,16 @@ const game = (function () {
 
         // Initializing the player board
         for (let k = 0; k < players.length; k++) {
-            $("#playerBorad").append("<div id=p" + k + "><span class=\"name\">Player " + (k + 1) + "<div>Life: <span class=\"life\"></span></div></span></div>");
+            $("#playerBorad").append("<div id=p" + k + "><span class=\"name\">Player " + (k + 1) + "<div>Life: <span class=\"life\"></span><div>Number of Bombs: <span class=\"bombs\"></span><div>Bomb Range: <span class=\"bombRange\"></span></div></span></div>");
         }
         for (let k = 0; k < players.length; k++) {
             $("#p" + k + " .life").html(players[k].stat.life);
+        }
+        for (let k = 0; k < players.length; k++) {
+            $("#p" + k + " .bombs").html(players[k].stat.numBombs);
+        }
+        for (let k = 0; k < players.length; k++) {
+            $("#p" + k + " .bombRange").html(players[k].stat.range);
         }
 
 
@@ -75,6 +81,12 @@ const game = (function () {
             // Update player board - can remove when we have backend
             for (let k = 0; k < players.length; k++) {
                 $("#p" + k + " .life").html(players[k].stat.life);
+            }
+            for (let k = 0; k < players.length; k++) {
+                $("#p" + k + " .bombs").html(players[k].stat.numBombs);
+            }
+            for (let k = 0; k < players.length; k++) {
+                $("#p" + k + " .bombRange").html(players[k].stat.range);
             }
 
             /* Process the next frame */

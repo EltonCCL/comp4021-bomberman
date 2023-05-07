@@ -1,5 +1,5 @@
-const StartPage = (function() {
-    const initialize = function() {
+const StartPage = (function () {
+    const initialize = function () {
         show();
         $("#login").on("click", () => {
             // go to login page
@@ -12,19 +12,19 @@ const StartPage = (function() {
             InstructionPage.show();
         });
     };
-    const show = function() {
+    const show = function () {
         $("#start-page").show();
         console.log('showing start page.');
     }
-    const hide = function() {
+    const hide = function () {
         $("#start-page").hide();
         console.log('hiding start page.');
     }
     return { initialize, show, hide };
 })();
 
-const InstructionPage = (function() {
-    const initialize = function() {
+const InstructionPage = (function () {
+    const initialize = function () {
         $("#instruction-home").click(() => {
             // back to start page
             hide();
@@ -35,19 +35,20 @@ const InstructionPage = (function() {
         hide(); // hide after initializing
     };
 
-    const show = function() {
+    const show = function () {
         $("#instruction-page").show();
         console.log('showing instruction page.');
     }
-    const hide = function() {
+    const hide = function () {
         $("#instruction-page").hide();
         console.log('hiding instruction page.');
     }
     return { initialize, show, hide };
 })();
 
-const LobbyPage = (function() {
-    const initialize = function() {
+const LobbyPage = (function () {
+    const initialize = function () {
+
         const player1Join = $("#join-player1");
         player1Join.click(() => {
             // * add to wait queue of the game
@@ -72,30 +73,24 @@ const LobbyPage = (function() {
             // player2Join.prop('disabled', true);
         });
 
-        $("#lobby-page").on("load", () => {
-            // load player ranking
-            const rankingTable = $("#players-ranking-table");
 
-            // load online players
-            const onlinePlayersTable = $("#online-players-table");
-        });
 
         hide();
     }
-    const show = function() {
+    const show = function () {
         $("#lobby-page").show();
         console.log('showing lobby page.');
     }
-    const hide = function() {
+    const hide = function () {
         $("#lobby-page").hide();
         console.log('hiding lobby page.');
     }
     return { initialize, show, hide };
 })();
 
-const GamePage = (function() {
-    const initialize = function() {
-        $("#back-to-home").click(function() {
+const GamePage = (function () {
+    const initialize = function () {
+        $("#back-to-home").click(function () {
             hide();
             // LobbyPage.show();
             Socket.restartGame();
@@ -108,29 +103,29 @@ const GamePage = (function() {
         // });
         hide();
     }
-    const show = function() {
+    const show = function () {
         console.log('showing game page.');
-        sounds.gameplay.loop=true;
+        sounds.gameplay.loop = true;
         sounds.gameplay.play();
         $("#game-page").show();
     }
-    const showEndGame = function(isWinner, placedBombs, destroyedWalls, kills,
+    const showEndGame = function (isWinner, placedBombs, destroyedWalls, kills,
         pointsScored, newRanking) {
         console.log('showing end game window.');
         sounds.gameplay.pause();
-        (isWinner) ? $("#is-winner").text("You Win!"): $("#is-winner").text("You Lose!");
-        $("#placed-bombs").text(placedBombs);
-        $("#destroyed-walls").text(destroyedWalls);
-        $("#player-kills").text(kills);
-        $("#points-scored").text(pointsScored);
-        $("#new-ranking").text(newRanking);
+        // (isWinner) ? $("#is-winner").text("You Win!") : $("#is-winner").text("You Lose!");
+        // $("#placed-bombs").text(placedBombs);
+        // $("#destroyed-walls").text(destroyedWalls);
+        // $("#player-kills").text(kills);
+        // $("#points-scored").text(pointsScored);
+        // $("#new-ranking").text(newRanking);
         $("#game-end-screen").show();
     }
-    const hideEndGame = function() {
+    const hideEndGame = function () {
         console.log('hiding end game window.');
         $("#game-end-screen").hide();
     }
-    const hide = function() {
+    const hide = function () {
         console.log('hiding lobby page.');
         hideEndGame();
         $("#game-page").hide();
@@ -138,9 +133,9 @@ const GamePage = (function() {
     return { initialize, show, hide, showEndGame };
 })();
 
-const LoginPage = (function() {
+const LoginPage = (function () {
 
-    const initialize = function() {
+    const initialize = function () {
         // Hide it
         hide();
 
@@ -160,7 +155,7 @@ const LoginPage = (function() {
                     let user = Authentication.getUser();
 
                     Socket.connect();
-                    // game.start();
+                    Socket.getLeaderboard();
                     LobbyPage.show();
                 },
                 (error) => { $("#signin-message").text(error); }
@@ -197,34 +192,35 @@ const LoginPage = (function() {
     };
 
 
-    const show = function() {
+    const show = function () {
         $("#login-page").show();
     }
-    const hide = function() {
+    const hide = function () {
         $("#login-page").hide();
     }
     return { initialize, show, hide };
 })();
 
 
-const UI = (function() {
+const UI = (function () {
 
     // The components of the UI are put here
     const components = [StartPage, InstructionPage, GamePage, LoginPage, LobbyPage];
 
     // This function initializes the UI
-    const initialize = function() {
+    const initialize = function () {
         // Initialize the components
         for (const component of components) {
             component.initialize();
         }
     };
 
-    const startGame = function() {
+
+    const startGame = function () {
         LobbyPage.hide();
         GamePage.show();
     }
-    const endGame = function(isWinner, placedBombs, destroyedWalls, kills, pointsScored, newRanking) {
+    const endGame = function (isWinner, placedBombs, destroyedWalls, kills, pointsScored, newRanking) {
         GamePage.showEndGame(isWinner, placedBombs, destroyedWalls, kills, pointsScored, newRanking);
     }
     return { initialize, startGame, endGame };
