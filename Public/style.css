@@ -379,3 +379,10 @@ body::before {
 #game-canvas {
     margin-bottom: 10px;
 }
+
+.instruction-text {
+    height: 65%;
+    /* set a fixed height */
+    overflow-y: scroll;
+    /* add a vertical scrollbar */
+}
