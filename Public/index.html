@@ -9,76 +9,6 @@
 </head>
 
 <body>
-    <!-- <div id="container" class="col">
-        <div id="header" class="row">
-            <div id="title">Bomberman
-                <span class="material-icons">chat</span>
-            </div>
-
-            <div class="spacer-grow"></div>
-
-
-            <div id="user-panel" class="row">
-                <div class="field-content row shadow">
-                    <span class="user-avatar"></span>
-                    <span class="user-name">-</span>
-                </div>
-                <button id="signout-button" class="icon"><span class="material-icons">logout</span></button>
-            </div>
-        </div>
-
-        <div id="main-panel" class="row">
-
-            <div id="area">
-                <div id="container">
-                    <canvas id="game-canvas" width="1050px" height="550px"></canvas>
-                </div>
-                <div>
-                    <button id="join-player1">Player 1</button>
-                    <b id="waitingText">Waiting Player to join</b>
-                    <button id="join-player2">Player 2</button>
-                </div>
-
-                <div id="playerBorad">
-                    <button id="restart">Restart</button>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <div id="signin-overlay" class="overlay row">
-        <div class="content shadow row">
-            <form id="signin-form" class="col">
-                <div class="caption">SIGN IN WITH YOUR ACCOUNT</div>
-                <div class="spacer-0"></div>
-                <input id="signin-username" placeholder="Enter your username"></input>
-                <input id="signin-password" type="password" placeholder="Enter your password"></input>
-                <div class="spacer-0"></div>
-                <button type="submit">Sign In</button>
-                <div id="signin-message" class="warning center"></div>
-                <div class="spacer-grow"></div>
-            </form>
-
-            <div class="spacer-0"></div>
-
-            <form id="register-form" class="col">
-                <div class="caption">OR, REGISTER IF YOU DO NOT HAVE ONE</div>
-                <div class="spacer-0"></div>
-                <input id="register-username" maxlength="10" placeholder="Enter your username"></input>
-                <select id="register-avatar">
-                    <option value="">Select your avatar</option>
-                </select>
-                <input id="register-name" maxlength="16" placeholder="Enter your name"></input>
-                <input id="register-password" type="password" placeholder="Enter your password"></input>
-                <input id="register-confirm" type="password" placeholder="Enter your password again"></input>
-                <div class="spacer-0"></div>
-                <button type="submit">Register</button>
-                <div id="register-message" class="warning center"></div>
-            </form>
-        </div>
-    </div> -->
-
     <!-- Login Page -->
     <div class="page-container" id="login-page">
         <div class="login-section">
@@ -129,12 +59,29 @@
     <div class="game-end-screen" id="game-end-screen">
         <h1 class="win-message" id="is-winner">You Win!</h1>
         <div class="line" id="line1"></div>
-        <div class="game-end-table" id="game-stat">
+        <div class="game-end-wrapper">
+            <div class="game-end-table" id="game-stat">
+                <h3>Game Statistics</h3>
+                <div id="game-stat-text"></div>
+            </div>
+            <div class="game-end-table" id="end-game-ranking">
+                <h3 class="score-board">Scoreboard</h3>
+                <div class="table-container">
+                    <table class="table" id="end-game-players-ranking-table">
+                        <thead>
+                            <tr>
+                                <th>Ranking</th>
+                                <th>Player Name</th>
+                                <th>Score</th>
+                            </tr>
+                        </thead>
+                        <tbody id="end-game-table-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-        <div class="line" id="line2"></div>
-        <div>ADD TABLE TO THIS FIELD</div>
-        <button class="page-bottom-button" id="back-to-home">Back To Lobby</a>
-    </div>
+        <button class="page-bottom-button" id="back-to-home">Back To Lobby</button>
     </div>
     <!-- Instruction Page -->
     <div class="page-containter" id="instruction-page">
@@ -146,18 +93,18 @@
         </div>
         <div class="instruction-text">
             <!-- TODO: type all instructions here -->
-            <ul>1. instruction dddddddddddddddddddddddd ddddddddddddddddddddddddddddddddd abc abas abaf abf abf abvcvba
-                dfhfnf</ul>
-            <ul>2. </ul>
-            <ul>3. </ul>
-            <ul>4. </ul>
-            <ul>5. </ul>
+            <ul>4 types of things are player, bomb, obstacle, and item</ul>
+            <ul>Game rules:</ul>
+            <ul>1. Player can place a bomb to destroy an obstacle or another player, and the bomb will explode after a set amount of time, creating an explosion that spreads out in four directions.</ul>
+            <ul>2. There are four items that will be randomly dropped after destroying an obstacle which are speed boost, extra life, explosion range increase and bomb increase</ul>
+            <ul>3. Player will use the keyboard to control all the movements in the game. </ul>
+            <ul>4. Whenever a player stands in the explosion will lose the game (no matter the bomb is placed by oneself or another player).</ul>
         </div>
     </div>
     <!-- Lobby Page -->
     <div class="page-containter" id="lobby-page">
         <div class="lobby-container">
-            <button class="page-bottom-button" id="join-player1">Player 1 Click this to join</button>
+            <button class="page-bottom-button" id="join-player1">Player 1</button>
             <div class="lobby-list-container" id="ranking">
                 <h1 class="score-board">Scoreboard</h1>
                 <div class="table-container">
@@ -173,7 +120,7 @@
                         </tbody>
                     </table>
                 </div>
-                <button class="page-bottom-button" id="join-player2">Player 2 Click this to join</button>
+                <button class="page-bottom-button" id="join-player2">Player 2</button>
             </div>
         </div>
     </div>
@@ -197,7 +144,7 @@
     <script src="game_scripts/game.js"></script>
     <script src="game_scripts/audio.js"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             // Initialize the UI
             UI.initialize();
 
