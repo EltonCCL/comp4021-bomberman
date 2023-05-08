@@ -209,8 +209,8 @@ const UI = (function() {
             component.initialize();
         }
 
-        StartPage.hide();
-        GamePage.showEndGame();
+        // StartPage.hide();
+        // GamePage.showEndGame();
     };
 
 
