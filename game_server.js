@@ -163,6 +163,7 @@ const httpServer = createServer(app);
 const io = new Server(httpServer);
 const onlineUsers = {};
 let players = { player1: null, player2: null };
+let gameEnded = false;
 io.on("connection", (socket) => {
     if (socket.request.session.user) {
         const { username, avatar, name } = socket.request.session.user;
@@ -179,6 +180,7 @@ io.on("connection", (socket) => {
         }
         players["player1"] = null;
         players["player2"] = null;
+        gameEnded = false;
     })
     socket.on("get users", () => {
         socket.emit("users", JSON.stringify(onlineUsers));
@@ -189,8 +191,8 @@ io.on("connection", (socket) => {
         setTimeout(function () {
             //handle place bomb movement
             if (data.movement == "bomb") {
-                // generate random nubmer from 0 - 3
-                let randomNumber = Math.floor(Math.random() * 4);
+                // generate random nubmer from 0 - 2
+                let randomNumber = Math.floor(Math.random() * 3);
                 //use direction as the random index of the random dropped item
                 io.emit("move", { playerID: data.playerID, movement: data.movement, direction: randomNumber });
             }
@@ -213,24 +215,28 @@ io.on("connection", (socket) => {
 
     //broadcast end game event to all players
     socket.on("end game", (data) => {
-        //update leaderboard
-        let content = JSON.parse(fs.readFileSync("public/data/leaderboard.json"));
-        let playerName = data;
-        //existing player
-        if (content[playerName])
-            content[playerName] += 1;
-        //new player
-        else {
-            content[playerName] = 1;
+        if (!gameEnded) {
+            //update leaderboard
+            let content = JSON.parse(fs.readFileSync("public/data/leaderboard.json"));
+            let playerName = data;
+            //existing player
+            if (content[playerName])
+                content[playerName] += 1;
+            //new player
+            else {
+                content[playerName] = 1;
+            }
+            fs.writeFileSync("public/data/leaderboard.json", JSON.stringify(content));
+            io.emit("end game", data);
+            players["player1"] = null;
+            players["player2"] = null;
+            gameEnded = true;
         }
-        fs.writeFileSync("public/data/leaderboard.json", JSON.stringify(content));
-        io.emit("end game", data);
-        players["player1"] = null;
-        players["player2"] = null;
     });
 
     //broadcast restart game event to all players
     socket.on("restart", () => {
+        gameEnded = false;
         io.emit("restart", true);
     });
 

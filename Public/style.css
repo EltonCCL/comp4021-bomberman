@@ -154,7 +154,7 @@ body::before {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 80%;
-    height: 80vh;
+    height: 100vh;
     background: rgba(196, 218, 255, 1);
     opacity: 1;
     border: 5px solid rgba(227, 172, 18, 1);
@@ -162,7 +162,7 @@ body::before {
     border-top-right-radius: 48px;
     border-bottom-left-radius: 48px;
     border-bottom-right-radius: 48px;
-    overflow: hidden;
+    overflow: auto;
     /* testing */
     /* display: none; */
 }

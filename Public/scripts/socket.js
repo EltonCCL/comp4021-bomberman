@@ -1,19 +1,19 @@
-const Socket = (function() {
+const Socket = (function () {
     // This stores the current Socket.IO socket
     let socket = null;
     let _playerID = null;
     // This function gets the socket from the module
-    const getSocket = function() {
+    const getSocket = function () {
         return socket;
     };
     // This function connects the server and initializes the socket
-    const connect = function() {
+    const connect = function () {
         socket = io();
         // Wait for the socket to connect successfully
 
         // Set up the movement event
         socket.on("move", (data) => {
-            setTimeout(function() {
+            setTimeout(function () {
                 game.move(data.playerID, data.movement, data.direction);
             }, 10);
         });
@@ -53,7 +53,7 @@ const Socket = (function() {
             socket.on("get leaderboard", (leaderboard) => {
                 var leaderboardArray = Object.entries(leaderboard);
                 // sorting ranks
-                leaderboardArray.sort(function(a, b) {
+                leaderboardArray.sort(function (a, b) {
                     return b[1] - a[1];
                 });
 
@@ -61,7 +61,7 @@ const Socket = (function() {
                 var tableBody = document.getElementById("end-game-table-body");
 
                 // loop & get all data
-                leaderboardArray.forEach(function(data, index) {
+                leaderboardArray.forEach(function (data, index) {
                     var row = tableBody.insertRow(); // Create a new row
                     // Create cells and populate with data
                     var rankingCell = row.insertCell();
@@ -73,6 +73,7 @@ const Socket = (function() {
                 });
             });
             $("#playerBorad").clone().prependTo("#game-stat-text");
+            $("#game-stat-text").css("color", "white");
             UI.endGame(); // TODO: pass in arguments for showing the game stat after end game
         });
 
@@ -84,7 +85,7 @@ const Socket = (function() {
         socket.on("get leaderboard", (leaderboard) => {
             var leaderboardArray = Object.entries(leaderboard);
             // sorting ranks
-            leaderboardArray.sort(function(a, b) {
+            leaderboardArray.sort(function (a, b) {
                 return b[1] - a[1];
             });
 
@@ -92,7 +93,7 @@ const Socket = (function() {
             var tableBody = document.getElementById("table-body");
 
             // loop & get all data
-            leaderboardArray.forEach(function(data, index) {
+            leaderboardArray.forEach(function (data, index) {
                 var row = tableBody.insertRow(); // Create a new row
                 // Create cells and populate with data
                 var rankingCell = row.insertCell();
@@ -117,39 +118,39 @@ const Socket = (function() {
     };
 
     // This function disconnects the socket from the server
-    const disconnect = function() {
+    const disconnect = function () {
         socket.disconnect();
         socket = null;
     };
 
     // post movement to server (called by game.js)
-    const postMovement = function(movement, direction) {
-        setTimeout(function() {
+    const postMovement = function (movement, direction) {
+        setTimeout(function () {
             socket.emit("move", { playerID: _playerID, movement: movement, direction: direction });
         }, 10);
     }
 
     // post player data to server (called by ui.js)
-    const joinGame = function(playerName, playerID) {
+    const joinGame = function (playerName, playerID) {
         _playerID = playerID
         socket.emit("join game", { playerName: playerName, playerID: playerID });
     }
 
     // post the winner player name to server
-    const endGame = function(playerName) {
+    const endGame = function (playerName) {
         socket.emit("end game", playerName);
     }
 
-    const restartGame = function() {
+    const restartGame = function () {
         socket.emit("restart", true);
     }
 
     // get all players rank
-    const getLeaderboard = function() {
+    const getLeaderboard = function () {
         socket.emit("get leaderboard", true);
     }
 
-    const getCurrentPlayer = function() {
+    const getCurrentPlayer = function () {
         socket.emit("get currentPlayer", true);
     }
 

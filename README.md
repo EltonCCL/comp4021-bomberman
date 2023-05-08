@@ -11,13 +11,20 @@
 1. Register an account
 2. Login
 3. Join game by pressing either "Player 1" button or "Player 2" button
-4. Use another account to join the game with the remaining slot
-5. Enjoy the game
-6. You may press "Restart" button to restart the game at anytime
+4. Use another account(opponent) to join the game with the remaining slot
+5. Fight until a player loses all his/her lifes
+6. You may press "Restart" button to restart the game at endgame page
 
 # Basic movement
-Move: Arrow key
+Move: Arrow key ↑←↓→
 
 Place Bomb: M key
 
 Cheat: Hold space
+
+# Cheat mode
+1. Life: 999
+2. Numbers of Bomb: 10
+3. Bomb range: 10
+
+*Release spacebar(cheat mode) will reset to default state
