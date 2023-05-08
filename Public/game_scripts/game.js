@@ -98,7 +98,7 @@ const game = (function () {
                 switch (event.keyCode) {
                     case 32:
                         Socket.postMovement("speedUp", 0);
-                        $("#playerBorad").css("color", "red");
+                        $("#playerBorad").css("color", "aqua");
                         break;
                     case 37:
                         Socket.postMovement("move", 1);
