@@ -1,5 +1,11 @@
 # comp4021-bomberman
 
+# Things in the game
+1. Player
+2. Bomb
+3. Item(buff)
+4. Obstacle(wall)
+
 # Set up
 1. ```npm install```
 2. ```node game_server.js```
