@@ -1,5 +1,5 @@
 const express = require("express");
-
+const speed = 200;
 const bcrypt = require("bcrypt");
 const fs = require("fs");
 const session = require("express-session");
@@ -287,25 +287,43 @@ io.on("connection", (socket) => {
         // flag = true;
         // console.log(data);
         if (data[0] == [0]){
+            let p1 = {x:p1Pos.x, y:p1Pos.y};
+            let p2 = {x:p2Pos.x, y:p2Pos.y};
             if (data[1]){
                 // console.log("collision");
-                io.emit("next frame", [p1Pos, p2Pos]);
+                // io.emit("next frame", [p1Pos, p2Pos]);
+
             }else{
-                x0 = p1Pos.x;
-                y0 = p1Pos.y;
-                x = x0
-                y = y0;
-                speed = 200
+                p1x = p1Pos.x;
+                p1y = p1Pos.y;
+
                 switch (playerDir[0]) {
-                            case 1: x -= speed / 60; break;
-                            case 2: y -= speed / 60; break;
-                            case 3: x += speed / 60; break;
-                            case 4: y += speed / 60; break;
+                            case 1: p1x -= speed / 60; break;
+                            case 2: p1y -= speed / 60; break;
+                            case 3: p1x += speed / 60; break;
+                            case 4: p1y += speed / 60; break;
                         }
-                io.emit("next frame", [{x:x, y:y}, p2Pos]);
+                // io.emit("next frame", [{x:x, y:y}, p2Pos]);
+                p1 = {x:p1x, y:p1y};
             }
 
-           
+            if (data[2]){
+
+            }else{
+                p2x = p2Pos.x;
+                p2y = p2Pos.y;
+
+                switch (playerDir[1]) {
+                            case 1: p2x -= speed / 60; break;
+                            case 2: p2y -= speed / 60; break;
+                            case 3: p2x += speed / 60; break;
+                            case 4: p2y += speed / 60; break;
+                        }
+                p2 = {x:p2x, y:p2y};
+                // io.emit("next frame", [{x:x, y:y}, p2Pos]);
+            }
+
+           io.emit("next frame", [p1, p2]);
         }
     });
 
@@ -332,7 +350,7 @@ io.on("connection", (socket) => {
             p1Pos = p1Data;
             p2Pos = p2Data;
             // console.log("request frame");
-            io.emit("checkColli", [0,p1Pos,playerDir[0]]);
+            io.emit("checkColli", [[0,p1Pos,playerDir[0]],[1,p2Pos,playerDir[1]]]);
 
             // io.emit("next frame", [p1Pos, p2Pos]);
 

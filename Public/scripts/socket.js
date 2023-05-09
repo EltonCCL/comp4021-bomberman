@@ -126,11 +126,16 @@ const Socket = (function () {
         });
         socket.on("checkColli", (data) => {
             // console.log(data);
-            player = data[0]
-            pos = data[1];
-            dir = data[2];
+            p1 = data[0][0]
+            p1pos = data[0][1];
+            p1dir = data[0][2];
+            p2 = data[1][0]
+            p2pos = data[1][1];
+            p2dir = data[1][2];
             
-            game.checkCollision(player,pos, dir);
+            let p1Col = game.checkCollision(p1,p1pos, p1dir);
+            let p2Col = game.checkCollision(p2,p2pos, p2dir);
+            socket.emit("is Collision", [_playerID,p1Col, p2Col]);
         });
 
     };

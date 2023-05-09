@@ -107,9 +107,12 @@ const Maps = function (ctx, ipt_map) {
                 // it used to prevent the player being stuck at the bomb he just places
                 let skip = false;
                 for (let p = 0; p < ignoreBlock.length; p++) {
-                    if (ignoreBlock[p][0] == j && ignoreBlock[p][1] == i) {
-                        skip = true;
-                        continue;
+                    if (ignoreBlock[p][0] == j && ignoreBlock[p][1] == i ) {
+                        if (objs[i][j].getType() == "bomb"){
+                            skip = true;
+                            continue;
+                        }
+                        
                     }
                 }
                 if (skip)

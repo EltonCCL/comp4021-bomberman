@@ -8,6 +8,7 @@ const game = (function () {
     let flag = false;
     let receivedPos = null;
     let mapArea = null
+    let pressed = false;
     const waitUntil = (condition, checkInterval = 1) => {
         return new Promise(resolve => {
             let interval = setInterval(() => {
@@ -117,6 +118,7 @@ const game = (function () {
         }
         // Handle player movement
         $(document).on("keydown", function (event) {
+
             setTimeout(function () {
                 switch (event.keyCode) {
                     case 32:
@@ -260,8 +262,10 @@ const game = (function () {
                 // updateBound(x,y);
                 // console.log(xPos, yPos);
                 // console.log("emit collid");
+                return false;
                 Socket.isCollide(false);
             } else {
+                return true;
                 // console.log("emit collid");
                 // console.log("game", "CRASH");
                 Socket.isCollide(true);
