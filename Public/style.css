@@ -185,12 +185,14 @@ body::before {
 
 .instruction-text {
     position: absolute;
-    top: 210px;
+    top: 150px;
     width: 75%;
     margin-left: 10%;
     font-size: 1.5rem;
-    /* testing */
-    /* display: none; */
+    height: 65%;
+    /* set a fixed height */
+    overflow-y: scroll;
+    /* add a vertical scrollbar */
 }
 
 .page-bottom-button {

@@ -123,6 +123,7 @@ const game = (function () {
                 switch (event.keyCode) {
                     case 32:
                         Socket.postMovement("speedUp", 0);
+                        $("#playerBorad").css("color", "aqua");
                         break;
                     case 37:
                         lastDir = "left"
@@ -153,6 +154,7 @@ const game = (function () {
                 switch (event.keyCode) {
                     case 32:
                         Socket.postMovement("slowDown", 0);
+                        $("#playerBorad").css("color", "white");
                         break;
                     case 37:
                         if (lastDir == "left") {
@@ -221,57 +223,57 @@ const game = (function () {
     }
 
     const checkCollision = function (pID, pos, dir) {
-            let { x, y } = pos;
-            let { x0, y0 } = pos;
-            x0 = x;
-            y0 = y;
+        let { x, y } = pos;
+        let { x0, y0 } = pos;
+        x0 = x;
+        y0 = y;
 
-            /* Move the player */
-            switch (dir) {
-                case 1: x -= speed / 60; break;
-                case 2: y -= speed / 60; break;
-                case 3: x += speed / 60; break;
-                case 4: y += speed / 60; break;
-            }
+        /* Move the player */
+        switch (dir) {
+            case 1: x -= speed / 60; break;
+            case 2: y -= speed / 60; break;
+            case 3: x += speed / 60; break;
+            case 4: y += speed / 60; break;
+        }
 
-            /* Set the new position if it is within the game area */
-            xPos = x;
-            yPos = y;
-            iIndex = Math.floor(y / 50);
-            jIndex = Math.floor(x / 50);
-
-
-            // Ignore some grid during collosion
-            // This is used to prevent the player get stuck by the bomb he just placed
-            ignoreBlock = [[Math.floor((x0 - 13) / 50), Math.floor((y0 - 15) / 50)],
-            [Math.floor((x0 - 13) / 50), Math.floor((y0 + 15) / 50)],
-            [Math.floor((x0 + 13) / 50), Math.floor((y0 - 15) / 50)],
-            [Math.floor((x0 + 13) / 50), Math.floor((y0 + 15) / 50)],
-            [Math.floor((x0) / 50), Math.floor((y0 - 15) / 50)],
-            [Math.floor((x0) / 50), Math.floor((y0 + 15) / 50)],
-            [Math.floor((x0 - 13) / 50), Math.floor((y0) / 50)],
-            [Math.floor((x0 + 13) / 50), Math.floor((y0) / 50)]];
+        /* Set the new position if it is within the game area */
+        xPos = x;
+        yPos = y;
+        iIndex = Math.floor(y / 50);
+        jIndex = Math.floor(x / 50);
 
 
-            // check collisin
-            if (!(mapArea.isCollision(xPos - 13, yPos - 15, ignoreBlock) ||
-                mapArea.isCollision(xPos - 13, yPos + 15, ignoreBlock) ||
-                mapArea.isCollision(xPos + 13, yPos - 15, ignoreBlock) ||
-                mapArea.isCollision(xPos + 13, yPos + 15, ignoreBlock))) {
-                // sprite.setXY(x, y);
-                // updateBound(x,y);
-                // console.log(xPos, yPos);
-                // console.log("emit collid");
-                return false;
-                Socket.isCollide(false);
-            } else {
-                return true;
-                // console.log("emit collid");
-                // console.log("game", "CRASH");
-                Socket.isCollide(true);
-            }
+        // Ignore some grid during collosion
+        // This is used to prevent the player get stuck by the bomb he just placed
+        ignoreBlock = [[Math.floor((x0 - 13) / 50), Math.floor((y0 - 15) / 50)],
+        [Math.floor((x0 - 13) / 50), Math.floor((y0 + 15) / 50)],
+        [Math.floor((x0 + 13) / 50), Math.floor((y0 - 15) / 50)],
+        [Math.floor((x0 + 13) / 50), Math.floor((y0 + 15) / 50)],
+        [Math.floor((x0) / 50), Math.floor((y0 - 15) / 50)],
+        [Math.floor((x0) / 50), Math.floor((y0 + 15) / 50)],
+        [Math.floor((x0 - 13) / 50), Math.floor((y0) / 50)],
+        [Math.floor((x0 + 13) / 50), Math.floor((y0) / 50)]];
 
-        
+
+        // check collisin
+        if (!(mapArea.isCollision(xPos - 13, yPos - 15, ignoreBlock) ||
+            mapArea.isCollision(xPos - 13, yPos + 15, ignoreBlock) ||
+            mapArea.isCollision(xPos + 13, yPos - 15, ignoreBlock) ||
+            mapArea.isCollision(xPos + 13, yPos + 15, ignoreBlock))) {
+            // sprite.setXY(x, y);
+            // updateBound(x,y);
+            // console.log(xPos, yPos);
+            // console.log("emit collid");
+            return false;
+            Socket.isCollide(false);
+        } else {
+            return true;
+            // console.log("emit collid");
+            // console.log("game", "CRASH");
+            Socket.isCollide(true);
+        }
+
+
     }
 
 
