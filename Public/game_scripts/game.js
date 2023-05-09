@@ -1,5 +1,5 @@
 const game = (function () {
-    const speed = 200;
+    const speed = 100;
     $("#game-canvas").css('opacity', '0.1');
     const players = [];
     let bombs = null;

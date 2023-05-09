@@ -1,5 +1,6 @@
 // Specify all the buff type
-const buffList = ["speedBoost", "extraRange", "extraLife", "extraBomb"];
+// const buffList = ["speedBoost", "extraRange", "extraLife", "extraBomb"];
+const buffList = ["extraRange", "extraLife", "extraBomb"];
 
 const Buff = function (ctx, x, y, type = "", randomNumber = 0) {
     const itemSequences = {

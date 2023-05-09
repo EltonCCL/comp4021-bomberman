@@ -1,5 +1,5 @@
 const express = require("express");
-const speed = 200;
+const speed = 100;
 const bcrypt = require("bcrypt");
 const fs = require("fs");
 const session = require("express-session");
