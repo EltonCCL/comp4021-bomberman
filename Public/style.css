@@ -189,6 +189,8 @@ body::before {
     width: 75%;
     margin-left: 10%;
     font-size: 1.5rem;
+    /* testing */
+    /* display: none; */
     height: 65%;
     /* set a fixed height */
     overflow-y: scroll;
@@ -341,7 +343,6 @@ body::before {
     margin-top: 5%;
     display: flex;
     width: 90%;
-    margin: 0 auto;
 }
 
 #game-stat {
@@ -352,6 +353,7 @@ body::before {
 #end-game-ranking {
     flex-grow: 0;
     width: 60%;
+    height: 90%;
 }
 
 #end-game-players-ranking-table {
@@ -380,4 +382,8 @@ body::before {
 
 #game-canvas {
     margin-bottom: 10px;
+}
+
+.instruction-subtitle {
+    font-size: 30px;
 }

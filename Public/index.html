@@ -93,27 +93,24 @@
         </div>
         <div class="instruction-text">
             <!-- TODO: type all instructions here -->
-            <ul>4 types of things: Player, Bomb, Obstacle, and Item</ul>
-            <ul>Game rules:</ul>
-            <ul>1. Player can place a bomb to destroy an obstacle or another player, and the bomb will explode after a
-                set amount of time, creating an explosion that spreads out in four directions.</ul>
-            <ul>2. There are three items that will be randomly dropped after destroying an obstacle which are extra
-                lifes, extra explosion range and extra number of bombs.</ul>
+            <ul class="instruction-subtitle">4 types of things: Player, Bomb, Obstacle, and Item</ul>
+            <ul class="instruction-subtitle">Game rules:</ul>
+            <ul>1. Player can place a bomb to destroy an obstacle or another player, and the bomb will explode after a set amount of time, creating an explosion that spreads out in four directions.</ul>
+            <ul>2. There are three items that will be randomly dropped after destroying an obstacle which are extra lifes, extra explosion range and extra number of bombs.</ul>
             <ul>3. Player will use the keyboard to control all the movements in the game. </ul>
-            <ul>4. Whenever a player stands in the explosion will lose 1 life (no matter the bomb is placed by oneself
-                or another player), player who loses all lifes lose the game.</ul>
-            <ul>Game flow:</ul>
+            <ul>4. Whenever a player stands in the explosion will lose 1 life (no matter the bomb is placed by oneself or another player), player who loses all lifes lose the game.</ul>
+            <ul class="instruction-subtitle">Game flow:</ul>
             <ul>1. Register an account</ul>
             <ul>2. Login</ul>
             <ul>3. Join game by pressing either "Player 1" button or "Player 2" button</ul>
             <ul>4. Use another account(opponent) to join the game with the remaining slot</ul>
             <ul>5. Fight until a player loses all his/her lifes</ul>
             <ul>6. You may press "Restart" button to restart the game at endgame page</ul>
-            <ul>Basic movement:</ul>
+            <ul class="instruction-subtitle">Basic movement:</ul>
             <ul>Move: Arrow key ↑←↓→</ul>
             <ul>Place Bomb: M key</ul>
             <ul>Cheat: Hold space</ul>
-            <ul>Cheat mode:</ul>
+            <ul class="instruction-subtitle">Cheat mode:</ul>
             <ul>1. Life: 999</ul>
             <ul>2. Numbers of Bomb: 10</ul>
             <ul>3. Bomb range: 10</ul>
@@ -164,7 +161,7 @@
     <script src="game_scripts/game.js"></script>
     <script src="game_scripts/audio.js"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             // Initialize the UI
             UI.initialize();
 

@@ -1,4 +1,9 @@
 {
+ "123": {
+  "avatar": "&#128057;",
+  "name": "name",
+  "password": "$2b$10$wVwH1INQkwinG.99FxrNNu.NpjQLqQes1wugmhnTAPM64IFvXthSW"
+ },
  "tony": {
   "avatar": "Owl",
   "name": "Tony Lee",
@@ -49,9 +54,9 @@
   "name": "name",
   "password": "$2b$10$XHhIe8Di162m9YLclkVCC.ctnxgdBrQdCj6psv6VbFYwnGDeRdU2S"
  },
- "eee": {
+ "player1": {
   "avatar": "&#128057;",
   "name": "name",
-  "password": "$2b$10$jEsiV3e6Fe/J6Cqzbgu5TebnBBvz.LMFA93UZaUx9sivk6g4DrWQu"
+  "password": "$2b$10$GUywWjYzF9YvmZ4fN3LhtuX2fxs2ZnKvQkf54dUqav/gF4aP9Unmm"
  }
 }
