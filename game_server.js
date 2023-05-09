@@ -156,14 +156,14 @@ app.get("/signout", (req, res) => {
 });
 
 
-//
-// ***** Please insert your Lab 6 code here *****
-//
+
 const { createServer } = require("http");
 const { Server } = require("socket.io");
 const httpServer = createServer(app);
 const io = new Server(httpServer);
 const onlineUsers = {};
+let players = { player1: null, player2: null };
+let gameEnded = false;
 io.on("connection", (socket) => {
     if (socket.request.session.user) {
         const { username, avatar, name } = socket.request.session.user;
@@ -178,6 +178,9 @@ io.on("connection", (socket) => {
             //console.log(onlineUsers);
             io.emit("remove user", JSON.stringify(socket.request.session.user));
         }
+        players["player1"] = null;
+        players["player2"] = null;
+        gameEnded = false;
     })
     socket.on("get users", () => {
         socket.emit("users", JSON.stringify(onlineUsers));
@@ -185,51 +188,66 @@ io.on("connection", (socket) => {
 
     //broadcast the movement to all players
     socket.on("move", (data) => {
-        //handle place bomb movement
-        if (data.movement == "bomb") {
-            // generate random nubmer from 0 - 3
-            let randomNumber = Math.floor(Math.random() * 4);
-            //use direction as the random index of the random dropped item
-            io.emit("move", { playerID: data.playerID, movement: data.movement, direction: randomNumber });
-        }
-        //handle move & cheat movement
-        else
-            io.emit("move", { playerID: data.playerID, movement: data.movement, direction: data.direction });
+        setTimeout(function () {
+            //handle place bomb movement
+            if (data.movement == "bomb") {
+                // generate random nubmer from 0 - 2
+                let randomNumber = Math.floor(Math.random() * 3);
+                //use direction as the random index of the random dropped item
+                io.emit("move", { playerID: data.playerID, movement: data.movement, direction: randomNumber });
+            }
+            //handle move & cheat movement
+            else
+                io.emit("move", { playerID: data.playerID, movement: data.movement, direction: data.direction });
+        }, 10);
     });
 
     //broadcast the join game event to all players
     socket.on("join game", (data) => {
+        if (data.playerID == 0) {
+            players["player1"] = data.playerName;
+        }
+        else if (data.playerID == 1) {
+            players["player2"] = data.playerName;
+        }
         io.emit("join game", { playerName: data.playerName, playerID: data.playerID });
     });
 
     //broadcast end game event to all players
     socket.on("end game", (data) => {
-        //update leaderboard
-        let content = JSON.parse(fs.readFileSync("public/data/leaderboard.json"));
-        let playerName = data;
-        //existing player
-        if (content[playerName])
-            content[playerName] += 1;
-        //new player
-        else {
-            content[playerName] = 1;
+        if (!gameEnded) {
+            //update leaderboard
+            let content = JSON.parse(fs.readFileSync("public/data/leaderboard.json"));
+            let playerName = data;
+            //existing player
+            if (content[playerName])
+                content[playerName] += 1;
+            //new player
+            else {
+                content[playerName] = 1;
+            }
+            fs.writeFileSync("public/data/leaderboard.json", JSON.stringify(content));
+            io.emit("end game", data);
+            players["player1"] = null;
+            players["player2"] = null;
+            gameEnded = true;
         }
-        fs.writeFileSync("public/data/leaderboard.json", JSON.stringify(content));
-        io.emit("end game", data);
     });
 
     //broadcast restart game event to all players
     socket.on("restart", () => {
+        gameEnded = false;
         io.emit("restart", true);
     });
 
     socket.on("get leaderboard", () => {
         let content = JSON.parse(fs.readFileSync("public/data/leaderboard.json"));
-        io.emit("get leaderboard", content);
+        socket.emit("get leaderboard", content);
     });
 
-
-
+    socket.on("get currentPlayer", () => {
+        io.emit("get currentPlayer", players);
+    });
 
 });
 

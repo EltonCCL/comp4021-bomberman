@@ -1,9 +1,8 @@
 // Specify all the buff type
-const buffList = ["speedBoost", "extraRange", "extraLife", "extraBomb"];
+const buffList = ["extraRange", "extraLife", "extraBomb"];
 
 const Buff = function (ctx, x, y, type = "", randomNumber = 0) {
     const itemSequences = {
-        speedBoost: { x: 15, y: 576, width: 128, height: 128, count: 1, timing: 200, loop: false },
         extraBomb: { x: 15, y: 12, width: 128, height: 128, count: 1, timing: 200, loop: false },
         extraLife: { x: 15, y: 294, width: 128, height: 128, count: 1, timing: 200, loop: false },
         extraRange: { x: 15, y: 152, width: 128, height: 128, count: 1, timing: 200, loop: false },
@@ -16,11 +15,7 @@ const Buff = function (ctx, x, y, type = "", randomNumber = 0) {
         type = buffList[randomNumber];
 
     const objType = type
-    console.log(type);
     switch (type) {
-        case 'speedBoost':
-            buffType = itemSequences.speedBoost;
-            break;
         case 'extraRange':
             buffType = itemSequences.extraRange;
             break;

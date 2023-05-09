@@ -13,7 +13,9 @@ const Socket = (function () {
 
         // Set up the movement event
         socket.on("move", (data) => {
-            game.move(data.playerID, data.movement, data.direction);
+            setTimeout(function () {
+                game.move(data.playerID, data.movement, data.direction);
+            }, 10);
         });
 
 
@@ -34,26 +36,85 @@ const Socket = (function () {
             if ($("#join-player1").html() != "Player 1" && $("#join-player2").html() != "Player 2") {
                 $("#game-canvas").css('opacity', '1');
                 $("#waitingText").html("Game Start!");
+                UI.startGame();
+                game.start();
             }
         });
 
         socket.on("end game", (winner) => {
             $("#game-canvas").css('opacity', '0.1');
-            $("#waitingText").html(winner + " win the game!");
+            $("#is-winner").html(winner + " win the game!");
             // disable all onclick listener
             $(document).unbind();
             getLeaderboard();
+            // // CLONE leaderboard
+            // $("#score-board").clone().prependTo("#end-game-ranking");
+            // Load leaderboard again instead of cloning
+            socket.on("get leaderboard", (leaderboard) => {
+                var leaderboardArray = Object.entries(leaderboard);
+                // sorting ranks
+                leaderboardArray.sort(function (a, b) {
+                    return b[1] - a[1];
+                });
+
+                // use getElement to get object instead of jquery
+                var tableBody = document.getElementById("end-game-table-body");
+
+                // loop & get all data
+                leaderboardArray.forEach(function (data, index) {
+                    var row = tableBody.insertRow(); // Create a new row
+                    // Create cells and populate with data
+                    var rankingCell = row.insertCell();
+                    rankingCell.textContent = index + 1;
+                    var nameCell = row.insertCell();
+                    nameCell.textContent = data[0];
+                    var scoreCell = row.insertCell();
+                    scoreCell.textContent = data[1];
+                });
+            });
+            $("#playerBorad").clone().prependTo("#game-stat-text");
+            $("#game-stat-text").css("color", "white");
+            UI.endGame(); // TODO: pass in arguments for showing the game stat after end game
         });
 
         socket.on("restart", () => {
             location.reload();
         });
 
-        //TODO : create a leaderboard with below data
+        // TODO : create a leaderboard with below data
         socket.on("get leaderboard", (leaderboard) => {
-            console.log("Leaderboard: " + leaderboard);
+            var leaderboardArray = Object.entries(leaderboard);
+            // sorting ranks
+            leaderboardArray.sort(function (a, b) {
+                return b[1] - a[1];
+            });
+
+            // use getElement to get object instead of jquery
+            var tableBody = document.getElementById("table-body");
+
+            // loop & get all data
+            leaderboardArray.forEach(function (data, index) {
+                var row = tableBody.insertRow(); // Create a new row
+                // Create cells and populate with data
+                var rankingCell = row.insertCell();
+                rankingCell.textContent = index + 1;
+                var nameCell = row.insertCell();
+                nameCell.textContent = data[0];
+                var scoreCell = row.insertCell();
+                scoreCell.textContent = data[1];
+            });
         });
 
+        socket.on("get currentPlayer", (players) => {
+            if (players["player1"] != null) {
+                $("#join-player1").html(players["player1"]);
+                $("#join-player1").css("background", "blue");
+            }
+            if (players["player2"] != null) {
+                $("#join-player2").html(players["player2"]);
+                $("#join-player2").css("background", "blue");
+            }
+        });
     };
 
     // This function disconnects the socket from the server
@@ -64,7 +125,9 @@ const Socket = (function () {
 
     // post movement to server (called by game.js)
     const postMovement = function (movement, direction) {
-        socket.emit("move", { playerID: _playerID, movement: movement, direction: direction });
+        setTimeout(function () {
+            socket.emit("move", { playerID: _playerID, movement: movement, direction: direction });
+        }, 10);
     }
 
     // post player data to server (called by ui.js)
@@ -87,5 +150,9 @@ const Socket = (function () {
         socket.emit("get leaderboard", true);
     }
 
-    return { getSocket, connect, disconnect, postMessage, postMovement, joinGame, endGame, restartGame, getLeaderboard };
+    const getCurrentPlayer = function () {
+        socket.emit("get currentPlayer", true);
+    }
+
+    return { getSocket, connect, disconnect, postMessage, postMovement, joinGame, endGame, restartGame, getLeaderboard, getCurrentPlayer };
 })();

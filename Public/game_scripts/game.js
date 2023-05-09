@@ -4,6 +4,7 @@ const game = (function () {
     const players = [];
     let bombs = null;
     let playerID = null;
+    let allowMove = true;
 
     const start = function () {
 
@@ -28,10 +29,16 @@ const game = (function () {
 
         // Initializing the player board
         for (let k = 0; k < players.length; k++) {
-            $("#playerBorad").append("<div id=p" + k + "><span class=\"name\">Player " + (k + 1) + "<div>Life: <span class=\"life\"></span></div></span></div>");
+            $("#playerBorad").append("<div id=p" + k + "><span class=\"name\">Player " + (k + 1) + "<div>Life: <span class=\"life\"></span><div>Number of Bombs: <span class=\"bombs\"></span><div>Bomb Range: <span class=\"bombRange\"></span></div></span></div>");
         }
         for (let k = 0; k < players.length; k++) {
             $("#p" + k + " .life").html(players[k].stat.life);
+        }
+        for (let k = 0; k < players.length; k++) {
+            $("#p" + k + " .bombs").html(players[k].stat.numBombs);
+        }
+        for (let k = 0; k < players.length; k++) {
+            $("#p" + k + " .bombRange").html(players[k].stat.range);
         }
 
 
@@ -75,55 +82,65 @@ const game = (function () {
             for (let k = 0; k < players.length; k++) {
                 $("#p" + k + " .life").html(players[k].stat.life);
             }
+            for (let k = 0; k < players.length; k++) {
+                $("#p" + k + " .bombs").html(players[k].stat.numBombs);
+            }
+            for (let k = 0; k < players.length; k++) {
+                $("#p" + k + " .bombRange").html(players[k].stat.range);
+            }
 
             /* Process the next frame */
             requestAnimationFrame(doFrame);
         }
         // Handle player movement
         $(document).on("keydown", function (event) {
-            switch (event.keyCode) {
-                case 32:
-                    Socket.postMovement("speedUp", 0);
-                    break;
-                case 37:
-                    Socket.postMovement("move", 1);
-                    break;
-                case 38:
-                    Socket.postMovement("move", 2);
-                    break;
-                case 39:
-                    Socket.postMovement("move", 3);
-                    break;
-                case 40:
-                    Socket.postMovement("move", 4);
-                    break;
-                case 77:
-                    Socket.postMovement("bomb", 0);
-                    break;
-            }
-
+            setTimeout(function () {
+                switch (event.keyCode) {
+                    case 32:
+                        Socket.postMovement("speedUp", 0);
+                        $("#playerBorad").css("color", "aqua");
+                        break;
+                    case 37:
+                        Socket.postMovement("move", 1);
+                        break;
+                    case 38:
+                        Socket.postMovement("move", 2);
+                        break;
+                    case 39:
+                        Socket.postMovement("move", 3);
+                        break;
+                    case 40:
+                        Socket.postMovement("move", 4);
+                        break;
+                    case 77:
+                        Socket.postMovement("bomb", 0);
+                        break;
+                }
+            }, 20);
         });
 
         /* Handle the keyup of arrow keys and spacebar */
         $(document).on("keyup", function (event) {
-            switch (event.keyCode) {
-                case 32:
-                    Socket.postMovement("slowDown", 0);
-                    break;
-                case 37:
-                    Socket.postMovement("stop", 1);
-                    break;
-                case 38:
-                    Socket.postMovement("stop", 2);
-                    break;
-                case 39:
-                    Socket.postMovement("stop", 3);
-                    break;
-                case 40:
-                    Socket.postMovement("stop", 4);
-                    break;
-            }
-
+            setTimeout(function () {
+                switch (event.keyCode) {
+                    case 32:
+                        Socket.postMovement("slowDown", 0);
+                        $("#playerBorad").css("color", "white");
+                        break;
+                    case 37:
+                        Socket.postMovement("stop", 1);
+                        break;
+                    case 38:
+                        Socket.postMovement("stop", 2);
+                        break;
+                    case 39:
+                        Socket.postMovement("stop", 3);
+                        break;
+                    case 40:
+                        Socket.postMovement("stop", 4);
+                        break;
+                }
+            }, 20);
         });
 
         /* Start the game */
@@ -148,6 +165,8 @@ const game = (function () {
         if (movement == "slowDown")
             players[playerID].slowDown();
     }
+
+
 
 
     return { start, move };

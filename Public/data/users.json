@@ -33,5 +33,25 @@
   "avatar": "Koala",
   "name": "www",
   "password": "$2b$10$PlOPbbwTBUSzUNxiDK1hues7JLZIqSSX1HKqRShdmURRwc4VjOi0i"
+ },
+ "abc": {
+  "avatar": "Rabbit Face",
+  "name": "abc",
+  "password": "$2b$10$IiuTE3UWVQ5zDz3qSm1TKuL9sYvhnJH0d/Nyq8xtVM.u15lsrT3tG"
+ },
+ "ny423": {
+  "avatar": "&#128057;",
+  "name": "name",
+  "password": "$2b$10$S0oGdi/wZKMSISmT9/zkX.VfyqyDMRFxl.HmBDFn4HcEczONwkgCK"
+ },
+ "def": {
+  "avatar": "&#128057;",
+  "name": "name",
+  "password": "$2b$10$XHhIe8Di162m9YLclkVCC.ctnxgdBrQdCj6psv6VbFYwnGDeRdU2S"
+ },
+ "eee": {
+  "avatar": "&#128057;",
+  "name": "name",
+  "password": "$2b$10$jEsiV3e6Fe/J6Cqzbgu5TebnBBvz.LMFA93UZaUx9sivk6g4DrWQu"
  }
 }

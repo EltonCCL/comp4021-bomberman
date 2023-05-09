@@ -89,8 +89,6 @@ const Player = function (ctx, x, y, gameArea, mapArea, id) {
 
     // This function speeds up the player.
     const speedUp = function () {
-        oriSpeed = speed;
-        speed = 500;
         stat.numBombs = 10;
         stat.life = 999;
         stat.range = 10;
@@ -98,7 +96,6 @@ const Player = function (ctx, x, y, gameArea, mapArea, id) {
 
     // This function slows down the player.
     const slowDown = function () {
-        speed = 100;
         stat.numBombs = 1;
         stat.life = 1;
         stat.range = 1;
@@ -159,6 +156,8 @@ const Player = function (ctx, x, y, gameArea, mapArea, id) {
 
             buff = mapArea.haveBuff(iIndex, jIndex)
             if (buff) {
+                // sounds.buff.currentTime = 0;
+                // sounds.buff.play();
                 updateStat(buff);
                 // console.log(buff);
             }

@@ -64,6 +64,8 @@ const Bombs = function (ctx, players) {
         const bombTime = setTimeout(bombExplosion, 2000);
 
         function bombExplosion() {
+            sounds.explosion.currentTime =0;
+            sounds.explosion.play();
             // rememove bomb obj and its boundary box
             ctx.clearObj(i, j, layer = "objs")
             ctx.clearObj(i, j, layer = "objsBox")
