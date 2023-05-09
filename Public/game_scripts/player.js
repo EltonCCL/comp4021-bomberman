@@ -17,6 +17,9 @@ const Player = function (ctx, x, y, gameArea, mapArea, id) {
         moveRight: { x: 0, y: 35, width: 32, height: 25, count: 7, timing: 50, loop: true },
         moveDown: { x: 0, y: 65, width: 32, height: 25, count: 7, timing: 50, loop: true }
     };
+    // x, y position of the player
+    let xPos = x;
+    let yPos = y;
 
     // player base stat
     let stat = {
@@ -48,17 +51,15 @@ const Player = function (ctx, x, y, gameArea, mapArea, id) {
     // - `4` - moving down
     let direction = 0;
 
-    // x, y position of the player
-    let xPos = x;
-    let yPos = y;
+
 
     // i, j grid of the player
     let iIndex = Math.floor(y / 50);
     let jIndex = Math.floor(x / 50);
 
     // This is the moving speed (pixels per second) of the player
-    let speed = 100;
-
+    let speed = 200;
+    //100
     // This function sets the player's moving direction.
     // - `dir` - the moving direction (1: Left, 2: Up, 3: Right, 4: Down)
     const move = function (dir) {
@@ -135,62 +136,78 @@ const Player = function (ctx, x, y, gameArea, mapArea, id) {
     // - `time` - The timestamp when this function is called
     const update = function (time) {
         /* Update the player if the player is moving */
-        if (direction != 0) {
-            let { x, y } = sprite.getXY();
-            let { x0, y0 } = sprite.getXY();
-            x0 = x;
-            y0 = y;
-            /* Move the player */
-            switch (direction) {
-                case 1: x -= speed / 60; break;
-                case 2: y -= speed / 60; break;
-                case 3: x += speed / 60; break;
-                case 4: y += speed / 60; break;
-            }
-
-            /* Set the new position if it is within the game area */
-            xPos = x;
-            yPos = y;
-            iIndex = Math.floor(y / 50);
-            jIndex = Math.floor(x / 50);
-
-            buff = mapArea.haveBuff(iIndex, jIndex)
-            if (buff) {
-                // sounds.buff.currentTime = 0;
-                // sounds.buff.play();
-                updateStat(buff);
-                // console.log(buff);
-            }
-            updateBound(xPos, yPos);
-
-            if (gameArea.isPointInBox(x, y)) {
-
-                // Ignore some grid during collosion
-                // This is used to prevent the player get stuck by the bomb he just placed
-                ignoreBlock = [[Math.floor((x0 - BoxW) / 50), Math.floor((y0 - BoxH) / 50)],
-                [Math.floor((x0 - BoxW) / 50), Math.floor((y0 + BoxH) / 50)],
-                [Math.floor((x0 + BoxW) / 50), Math.floor((y0 - BoxH) / 50)],
-                [Math.floor((x0 + BoxW) / 50), Math.floor((y0 + BoxH) / 50)],
-                [Math.floor((x0) / 50), Math.floor((y0 - BoxH) / 50)],
-                [Math.floor((x0) / 50), Math.floor((y0 + BoxH) / 50)],
-                [Math.floor((x0 - BoxW) / 50), Math.floor((y0) / 50)],
-                [Math.floor((x0 + BoxW) / 50), Math.floor((y0) / 50)]];
-
-                // check collisin
-                if (!(mapArea.isCollision(xPos - BoxW, yPos - BoxH, ignoreBlock) ||
-                    mapArea.isCollision(xPos - BoxW, yPos + BoxH, ignoreBlock) ||
-                    mapArea.isCollision(xPos + BoxW, yPos - BoxH, ignoreBlock) ||
-                    mapArea.isCollision(xPos + BoxW, yPos + BoxH, ignoreBlock))) {
-                    sprite.setXY(x, y);
-                }
-            }
+        let { x, y } = sprite.getXY();
+        iIndex = Math.floor(y / 50);
+        jIndex = Math.floor(x / 50);
+        buff = mapArea.haveBuff(iIndex, jIndex)
+        if (buff) {
+            updateStat(buff);
         }
+        //------------------
+        // if (direction != 0) {
+        //     let { x, y } = sprite.getXY();
+        //     let { x0, y0 } = sprite.getXY();
+        //     x0 = x;
+        //     y0 = y;
 
+        //     /* Move the player */
+        //     switch (direction) {
+        //         case 1: x -= speed / 60; break;
+        //         case 2: y -= speed / 60; break;
+        //         case 3: x += speed / 60; break;
+        //         case 4: y += speed / 60; break;
+        //     }
+
+        //     /* Set the new position if it is within the game area */
+        //     xPos = x;
+        //     yPos = y;
+        //     iIndex = Math.floor(y / 50);
+        //     jIndex = Math.floor(x / 50);
+
+        //     buff = mapArea.haveBuff(iIndex, jIndex)
+        //     if (buff) {
+        //         // sounds.buff.currentTime = 0;
+        //         // sounds.buff.play();
+        //         updateStat(buff);
+        //         // console.log(buff);
+        //     }
+        //     updateBound(xPos, yPos);
+
+        //     if (gameArea.isPointInBox(x, y)) {
+
+        //         // Ignore some grid during collosion
+        //         // This is used to prevent the player get stuck by the bomb he just placed
+        //         ignoreBlock = [[Math.floor((x0 - BoxW) / 50), Math.floor((y0 - BoxH) / 50)],
+        //         [Math.floor((x0 - BoxW) / 50), Math.floor((y0 + BoxH) / 50)],
+        //         [Math.floor((x0 + BoxW) / 50), Math.floor((y0 - BoxH) / 50)],
+        //         [Math.floor((x0 + BoxW) / 50), Math.floor((y0 + BoxH) / 50)],
+        //         [Math.floor((x0) / 50), Math.floor((y0 - BoxH) / 50)],
+        //         [Math.floor((x0) / 50), Math.floor((y0 + BoxH) / 50)],
+        //         [Math.floor((x0 - BoxW) / 50), Math.floor((y0) / 50)],
+        //         [Math.floor((x0 + BoxW) / 50), Math.floor((y0) / 50)]];
+
+
+        //         // check collisin
+        //         if (!(mapArea.isCollision(xPos - BoxW, yPos - BoxH, ignoreBlock) ||
+        //             mapArea.isCollision(xPos - BoxW, yPos + BoxH, ignoreBlock) ||
+        //             mapArea.isCollision(xPos + BoxW, yPos - BoxH, ignoreBlock) ||
+        //             mapArea.isCollision(xPos + BoxW, yPos + BoxH, ignoreBlock))) {
+        //             sprite.setXY(x, y);
+
+        //         } else {
+        //             console.log("CRASH");
+
+        //         }
+        //     }
+        // }
+        //------------------
         /* Update the sprite object */
         sprite.update(time);
         // console.log("Update player");
     };
+    const checkCollision = function () {
 
+    }
     const getIJ = function () {
         return { i: iIndex, j: jIndex };
     }
@@ -223,6 +240,40 @@ const Player = function (ctx, x, y, gameArea, mapArea, id) {
             console.log(playerName, "is dead");
         }
     }
+    const getXY = function () {
+        return { x: xPos, y: yPos };
+    }
+
+    function checkSafe(x, y) {
+        return new Promise(resolve => {
+            // ignoreBlock = [];
+            // if (!(
+            //     mapArea.isCollision(Math.floor((x - BoxW) / 50), Math.floor((y - BoxH) / 50), ignoreBlock) ||
+            //     mapArea.isCollision(Math.floor((x - BoxW) / 50), Math.floor((y + BoxH) / 50), ignoreBlock) ||
+            //     mapArea.isCollision(Math.floor((x + BoxW) / 50), Math.floor((y - BoxH) / 50), ignoreBlock) ||
+            //     mapArea.isCollision(Math.floor((x + BoxW) / 50), Math.floor((y + BoxH) / 50), ignoreBlock) ||
+
+            //     mapArea.isCollision(Math.floor((x) / 50), Math.floor((y - BoxH) / 50), ignoreBlock) ||
+            //     mapArea.isCollision(Math.floor((x) / 50), Math.floor((y + BoxH) / 50), ignoreBlock) ||
+            //     mapArea.isCollision(Math.floor((x - BoxW) / 50), Math.floor((y) / 50), ignoreBlock) ||
+            //     mapArea.isCollision(Math.floor((x + BoxW) / 50), Math.floor((y) / 50), ignoreBlock)
+            // )) {
+            //     console.log("safe to set newXY");
+            //     sprite.setXY(x, y);
+            //     // console.log(xPos, yPos);
+            // } 
+            sprite.setXY(x, y);
+            xPos = x;
+            yPos = y;
+            iIndex = Math.floor(y / 50);
+            jIndex = Math.floor(x / 50);
+        });
+    }
+
+    const setXY = async function (x, y) {
+        const result = await checkSafe(x, y);
+
+    }
     // The methods are returned as an object here.
     return {
         move: move,
@@ -237,6 +288,8 @@ const Player = function (ctx, x, y, gameArea, mapArea, id) {
         stat: stat,
         PID: PID,
         getIJ, getIJ,
-        reduceLife: reduceLife
+        reduceLife: reduceLife,
+        getXY: getXY,
+        setXY: setXY
     };
 };

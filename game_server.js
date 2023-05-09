@@ -155,7 +155,15 @@ app.get("/signout", (req, res) => {
 
 });
 
-
+const waitUntil = (condition, checkInterval = 1) => {
+    return new Promise(resolve => {
+        let interval = setInterval(() => {
+            if (!condition()) return;
+            clearInterval(interval);
+            resolve();
+        }, checkInterval)
+    })
+}
 
 const { createServer } = require("http");
 const { Server } = require("socket.io");
@@ -164,26 +172,35 @@ const io = new Server(httpServer);
 const onlineUsers = {};
 let players = { player1: null, player2: null };
 let gameEnded = false;
+let nextFrame = { player1: false, player2: false };
+let p1Data = null;
+let p2Data = null;
+let map = null;
+let playerDir = [0,0];
+let flag = false;
 io.on("connection", (socket) => {
     if (socket.request.session.user) {
         const { username, avatar, name } = socket.request.session.user;
         onlineUsers[username] = { avatar, name };
-        //console.log(onlineUsers);
+        // console.log("con", onlineUsers, players);
         io.emit("add user", JSON.stringify(socket.request.session.user));
     }
     socket.on("disconnect", () => {
         if (socket.request.session.user) {
             const { username } = socket.request.session.user;
             if (onlineUsers[username]) delete onlineUsers[username];
-            //console.log(onlineUsers);
+            // console.log(onlineUsers);
             io.emit("remove user", JSON.stringify(socket.request.session.user));
         }
         players["player1"] = null;
         players["player2"] = null;
         gameEnded = false;
+
+        // console.log("dis", onlineUsers, players);
     })
     socket.on("get users", () => {
         socket.emit("users", JSON.stringify(onlineUsers));
+        // console.log("get", onlineUsers, players);
     });
 
     //broadcast the movement to all players
@@ -197,8 +214,17 @@ io.on("connection", (socket) => {
                 io.emit("move", { playerID: data.playerID, movement: data.movement, direction: randomNumber });
             }
             //handle move & cheat movement
-            else
+            else {
+                if (data.movement == "move"){
+                    playerDir[data.playerID] = data.direction;
+                }
+                if (data.movement == "stop"){
+                    playerDir[data.playerID] = 0;
+                }
+                
                 io.emit("move", { playerID: data.playerID, movement: data.movement, direction: data.direction });
+                // console.log({ playerID: data.playerID, movement: data.movement, direction: data.direction });
+            }
         }, 10);
     });
 
@@ -211,10 +237,18 @@ io.on("connection", (socket) => {
             players["player2"] = data.playerName;
         }
         io.emit("join game", { playerName: data.playerName, playerID: data.playerID });
+        if (players["player1"] !== null && players["player2"] !== null) {
+            // console.log("Enough player, start now, initializing player pos");
+
+            // initPos()
+        }
+        // console.log("joi", onlineUsers, players);
     });
 
     //broadcast end game event to all players
     socket.on("end game", (data) => {
+        // console.log("clearing player pos");
+
         if (!gameEnded) {
             //update leaderboard
             let content = JSON.parse(fs.readFileSync("public/data/leaderboard.json"));
@@ -248,6 +282,63 @@ io.on("connection", (socket) => {
     socket.on("get currentPlayer", () => {
         io.emit("get currentPlayer", players);
     });
+
+    socket.on("is Collision", (data) =>{
+        // flag = true;
+        // console.log(data);
+        if (data[0] == [0]){
+            if (data[1]){
+                // console.log("collision");
+                io.emit("next frame", [p1Pos, p2Pos]);
+            }else{
+                x0 = p1Pos.x;
+                y0 = p1Pos.y;
+                x = x0
+                y = y0;
+                speed = 200
+                switch (playerDir[0]) {
+                            case 1: x -= speed / 60; break;
+                            case 2: y -= speed / 60; break;
+                            case 3: x += speed / 60; break;
+                            case 4: y += speed / 60; break;
+                        }
+                io.emit("next frame", [{x:x, y:y}, p2Pos]);
+            }
+
+           
+        }
+    });
+
+    // data = [ playerID, p1X cor, p1Y cor, p2X cor, p2Y cor ]
+    socket.on("next frame", (data) => {
+        // map = data[3];
+        // console.log(map);
+        // console.log(data[1]);
+        // console.log(data);
+        if (data[0] == 0) {
+            nextFrame.player1 = true;
+            p1Data = data[1];
+            p2Data = data[2];
+            // console.log(p1Data);
+        } else {
+            nextFrame.player2 = true;
+
+        }
+        // console.log(data, "request frame");
+        if (nextFrame.player1 == true && nextFrame.player2 == true) {
+            
+            nextFrame.player1 = false;
+            nextFrame.player2 = false;
+            p1Pos = p1Data;
+            p2Pos = p2Data;
+            // console.log("request frame");
+            io.emit("checkColli", [0,p1Pos,playerDir[0]]);
+
+            // io.emit("next frame", [p1Pos, p2Pos]);
+
+        }
+
+    })
 
 });
 

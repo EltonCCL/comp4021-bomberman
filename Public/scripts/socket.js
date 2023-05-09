@@ -13,6 +13,7 @@ const Socket = (function () {
 
         // Set up the movement event
         socket.on("move", (data) => {
+            console.log(data.playerID, data.movement, data.direction);
             setTimeout(function () {
                 game.move(data.playerID, data.movement, data.direction);
             }, 10);
@@ -115,6 +116,23 @@ const Socket = (function () {
                 $("#join-player2").css("background", "blue");
             }
         });
+
+        socket.on("next frame", (data) => {
+            // console.log("Received", isReady);
+            game.nextFrame(data);
+            // if (isReady){
+            //     game.nextFrame();
+            // }
+        });
+        socket.on("checkColli", (data) => {
+            // console.log(data);
+            player = data[0]
+            pos = data[1];
+            dir = data[2];
+            
+            game.checkCollision(player,pos, dir);
+        });
+
     };
 
     // This function disconnects the socket from the server
@@ -153,6 +171,15 @@ const Socket = (function () {
     const getCurrentPlayer = function () {
         socket.emit("get currentPlayer", true);
     }
+    const requestFrame = function(p1, p2){
+        // console.log(p1);
+        socket.emit("next frame", [_playerID, p1.getXY(),p2.getXY()]);
+        
+    }
+    const isCollide = function(isCol){
+        console.log("emit collid");
+        socket.emit("is Collision", [_playerID,isCol]);
+    }
 
-    return { getSocket, connect, disconnect, postMessage, postMovement, joinGame, endGame, restartGame, getLeaderboard, getCurrentPlayer };
+    return { getSocket, connect, disconnect, postMessage, postMovement, joinGame, endGame, restartGame, getLeaderboard, getCurrentPlayer ,requestFrame, isCollide};
 })();
