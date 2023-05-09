@@ -27,4 +27,4 @@ Cheat: Hold space
 2. Numbers of Bomb: 10
 3. Bomb range: 10
 
-*Release spacebar(cheat mode) will reset to default state
+*Release spacebar(cheat mode) will reset to default state (life:1, number of bomb:1, bomb range:1)
