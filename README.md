@@ -1,5 +1,9 @@
 # comp4021-bomberman
 
+
+https://github.com/EltonCCL/comp4021-bomberman/assets/85723035/9879e12a-4c9d-47c3-90ff-b187acb084b9
+
+
 # Set up
 1. ```npm install```
 2. ```node game_server.js```
